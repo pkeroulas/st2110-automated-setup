@@ -1,3 +1,6 @@
 [submodule "server/dhcp-glass"]
 	path = server/dhcp-glass
 	url = https://github.com/Akkadius/glass-isc-dhcp
+[submodule "server/netbox"]
+	path = server/netbox
+	url = https://github.com/netbox-community/netbox-docker.git
