@@ -26,7 +26,7 @@ services:
             - ./dhcp-glass:/home/node/app
             - ./dhcp:/var/lib/dhcp
             - ./dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf
-            - ./dhcp/
+            - ./dhcp/:/srv/dhcp/
         ports:
             - "8080:8080"
             - "3000:3000"

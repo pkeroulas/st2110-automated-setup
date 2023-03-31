@@ -27,6 +27,7 @@ Services:
 git clone https://pkeroulas@bitbucket.org/cbcrc/st2110-automation-bench.git
 cd st2110-automation-bench
 git submodule update --init
+chmod 755 server/dhcp-glass/bin/dhcpd-pools
 ```
 
 ### Network config
@@ -60,4 +61,10 @@ ip a
 ```
 cd ./server
 docker-compose up
+```
+
+Test
+```
+IP=10.164.50.135
+firefox http:$IP//:3000  http://$IP:8000/admin/#/
 ```
