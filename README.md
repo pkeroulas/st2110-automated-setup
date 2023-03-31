@@ -11,6 +11,7 @@ Services:
 
 * DHCP (and web UI)
 * NMOS registry (mdns+ web UI)
+* Netbox
 
 ### Pre-requisites
 
@@ -56,15 +57,41 @@ ip a
        valid_lft forever preferred_lft forever
 ```
 
-### Start the services
+### Start the network services
 
 ```
 cd ./server
 docker-compose up
 ```
 
-Test
+## Netbox
+
+### Configure the http port and start
+
+```
+cp ./netbox-custom/netbox.docker-compose.override.yml ./netbox/
+cd ./netbox/
+docker-compose up
+# DONT docker-compose down on this one, the DB is wipded
+```
+
+### Create the superuser on 1st exec:
+
+```
+docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+```
+
+### Import initial data
+
+Using the web UI, import:
+
+- the manufactors: `./netbox-custom/manufacturers.csv`
+- the device types: `./netbox-custom/device_types.yaml`
+
+
+## Test everything
+
 ```
 IP=10.164.50.135
-firefox http:$IP//:3000  http://$IP:8000/admin/#/
+firefox http:$IP//:3000  http://$IP:8000/admin/#/ http://$IP:2000/
 ```
