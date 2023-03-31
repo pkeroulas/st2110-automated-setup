@@ -9,9 +9,9 @@
 
 Services:
 
-* DHCP (and web UI)
-* NMOS registry (mdns+ web UI)
-* Netbox
+* DHCP (and web UI port 3000)
+* NMOS registry (mdns+ web UI, port 8000)
+* Netbox (port 2000)
 
 ### Pre-requisites
 
@@ -66,7 +66,7 @@ docker-compose up
 
 ## Netbox
 
-### Configure the http port and start
+Configure the http port and start:
 
 ```
 cp ./netbox-custom/netbox.docker-compose.override.yml ./netbox/
@@ -75,15 +75,13 @@ docker-compose up
 # DONT docker-compose down on this one, the DB is wipded
 ```
 
-### Create the superuser on 1st exec:
+Create the superuser on 1st exec:
 
 ```
 docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
-### Import initial data
-
-Using the web UI, import:
+Login to the web UI: (port 2000) and import initial data:
 
 - the manufactors: `./netbox-custom/manufacturers.csv`
 - the device types: `./netbox-custom/device_types.yaml`
