@@ -9,8 +9,8 @@
 
 Services:
 
-* DHCP
-* NMOS registry
+* DHCP (and web UI)
+* NMOS registry (mdns+ web UI)
 
 ### Pre-requisites
 
@@ -26,6 +26,7 @@ Services:
 ```
 git clone https://pkeroulas@bitbucket.org/cbcrc/st2110-automation-bench.git
 cd st2110-automation-bench
+git submodule update --init
 ```
 
 ### Network config
