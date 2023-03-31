@@ -1,0 +1,33 @@
+version: "2"
+services:
+    nmos-registry:
+        image: pk1984/nmos-cpp:7ca64c4f
+        hostname: 'registry'
+        ports:
+            - "8000:8000" # UI + APIS: node, registration, query, system
+            - "8001:8001" # query websocket
+        volumes:
+            - ./nmos/reg_mdns.json:/home/reg.json
+            - ./nmos/container-config:/home/container-config
+    dhcp:
+        image: networkboot/dhcpd
+        hostname: 'dhcp'
+        network_mode: "host" # this hides the ports from the external
+        volumes:
+            - ./dhcp/:/data
+        # don't worry about the network interface, dhcpd ignores
+        # the ifaces that doesn't match the subnet in dhcpd.conf
+    glass:
+        image: "node:8"
+        working_dir: /home/node/app
+        environment:
+            - NODE_ENV=production
+        volumes:
+            - ./dhcp-glass:/home/node/app
+            - ./dhcp:/var/lib/dhcp
+            - ./dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf
+            - ./dhcp/
+        ports:
+            - "8080:8080"
+            - "3000:3000"
+        command: "/bin/sh -c 'npm install && npm start'"

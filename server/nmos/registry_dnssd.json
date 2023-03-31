@@ -1,0 +1,10 @@
+{
+    "host_name": "registrationsd",
+    "domain": "asdlab.cbcrc.ca",
+    "http_port": 8000,
+    "query_ws_port": 8001,
+    "pri": 0,
+    "is04_versions": ["v1.1","v1.2","v1.3"],
+    "label": "ASD lab registry 1 (main)",
+    "don't worry": "about trailing commas"
+}

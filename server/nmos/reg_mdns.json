@@ -1,0 +1,19 @@
+// Note: C++/JavaScript-style single and multi-line comments are permitted and ignored in nmos-cpp config files
+
+// Configuration settings and defaults for the NMOS Node, Query and Registration APIs
+{
+    //"host_name": "",
+    "host_address": "192.168.0.254",
+    "http_port": 8000,
+    "query_ws_port": 8001,
+    "pri": 10,
+
+    "query_paging_default": 20,
+    "query_paging_limit": 100,
+
+    "is04_versions": ["v1.1","v1.2"],
+
+    "label": "SMPTE Bootcamp 2023",
+
+    "don't worry": "about trailing commas"
+}
