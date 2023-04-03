@@ -9,7 +9,7 @@
 * docker
 * docker compose
 
-## Install
+## Install the package
 
 ```
 git clone https://pkeroulas@bitbucket.org/cbcrc/st2110-automation-bench.git
@@ -48,13 +48,23 @@ ip a
 
 ```
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+sudo vi /etc/systemd/sleep.conf
+[Sleep]
+AllowSuspend=no
+AllowHibernation=no
+AllowSuspendThenHibernate=no
+AllowHybridSleep=no
 ```
 
-## Start the network services
+## Setup the infra services (dhcp, nmos, glass)
+
+As sudo:
 
 ```
-cd ./server
-docker-compose up
+cp ./infra.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable infra
+systemctl start infra
 ```
 
 ## Netbox
@@ -78,11 +88,3 @@ Login to the web UI: (port 2000) and import initial data:
 
 - the manufactors: `./netbox-custom/manufacturers.csv`
 - the device types: `./netbox-custom/device_types.yaml`
-
-
-## Test everything
-
-```
-IP=10.164.50.135
-firefox http:$IP//:3000  http://$IP:8000/admin/#/ http://$IP:2000/
-```

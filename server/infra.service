@@ -1,0 +1,11 @@
+[Unit]
+Description='ST 2110 infra'
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStart=/usr/bin/env /usr/local/bin/docker-compose -f /home/lab/dev/st2110-automation-bench/server/docker-compose.yml up
+ExecStop=/usr/bin/env /usr/local/bin/docker-compose -f /home/lab/dev/st2110-automation-bench/server/docker-compose.yml stop
+
+[Install]
+WantedBy=multi-user.target
