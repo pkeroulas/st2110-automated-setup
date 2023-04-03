@@ -16,6 +16,7 @@ git clone https://pkeroulas@bitbucket.org/cbcrc/st2110-automation-bench.git
 cd st2110-automation-bench
 git submodule update --init
 chmod 755 server/dhcp-glass/bin/dhcpd-pools
+echo "$(pwd)/server/status.sh" >> ~/.bashrc
 ```
 
 ## Network config
