@@ -2,12 +2,13 @@
 
 ## Pre-requisites
 
-* debian-based host
-* ssh
-* git
-* curl
-* docker
-* docker compose
+On a debian-based host:
+
+```
+apt install openssh-server git tig curl docker net-tools vim
+```
+
+Also install docker-compose
 
 ## Install the package
 
@@ -93,7 +94,13 @@ cd ./netbox/
 docker-compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
-Login to the web UI: (port 2000) and import initial data:
+Login to the web UI using the superuser and create:
+
+- a normal user (r/w)
+- a API token (r/w)
+
+
+Import initial data:
 
 - the manufactors: `./netbox-custom/manufacturers.csv`
 - the device types: `./netbox-custom/device_types.yaml`
