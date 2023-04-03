@@ -69,19 +69,27 @@ systemctl start infra
 
 ## Netbox
 
-Configure the http port and start:
+Configure the http port and copy:
 
 ```
 cp ./netbox-custom/netbox.docker-compose.override.yml ./netbox/
-cd ./netbox/
-docker-compose up
-# DONT docker-compose down on this one, the DB is wipded
+```
+
+As sudo, configure as an auto-started service:
+
+```
+cp ./netbox.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable netbox
+systemctl start netbox
+# DO NEVER `docker-compose down` this one, the DB is wiped !!!!
 ```
 
 Create the superuser on 1st exec:
 
 ```
-docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+cd ./netbox/
+docker-compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
 Login to the web UI: (port 2000) and import initial data:
