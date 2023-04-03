@@ -73,7 +73,7 @@ systemctl start infra
 Configure the http port and copy:
 
 ```
-cp ./netbox-custom/netbox.docker-compose.override.yml ./netbox/
+cp ./netbox-custom/docker-compose.override.yml ./netbox/docker-compose.override.yml
 ```
 
 As sudo, configure as an auto-started service:
