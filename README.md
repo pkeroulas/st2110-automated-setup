@@ -21,3 +21,7 @@ Test services:
 IP=10.164.50.135
 firefox http://$IP:3000  http://$IP:8000/admin/#/ http://$IP:2000/
 ```
+
+## Scripts:
+
+[Installation guide](./scripts/INSTALL.md).
