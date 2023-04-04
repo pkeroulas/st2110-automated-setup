@@ -3,11 +3,16 @@
 
 IFACE_MGT=eno1
 IFACE_INFRA=enx00e04c0208a4
+PORT_NETBOX=2000
+PORT_GLASS=3000
+PORT_NMOS=8000
 IP_MGT=$(ip addr show $IFACE_MGT | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
 
 show_header()
 {
-    printf  "\e[1;29m%s\e[m\n" "$1"
+    echo "-----------------------------------------------"
+    printf "   \e[1;29m%s\e[m\n" "$1"
+    echo "-----------------------------------------------"
 }
 
 show_status()
@@ -22,7 +27,7 @@ show_status()
         color=34 #blue
         len=25
     fi
-    printf  "%-20.20s \e[1;${color}m%-${len}.${len}s \e[1;34m%-25.25s %s\e[m\n" "$1" "$2" "$3" "$4"
+    printf  "%-30.30s \e[1;${color}m%-${len}.${len}s \e[1;34m%-25.25s %s\e[m\n" "$1" "$2" "$3" "$4"
 }
 
 get_status()
@@ -50,19 +55,18 @@ port_status()
 
 get_all_status()
 {
-    echo "-----------------------------------------------"
     port_status "Management" $IFACE_MGT
     port_status "Infra" $IFACE_INFRA
 
     dockerz=$(docker ps)
 
-    echo "-----------------------------------------------"
     show_header "Infra"
     get_status "Docker: ISC DHCP"       "echo $dockerz" "dhcp"
     get_status "Docker: DHCP Glass" "echo $dockerz" "server-glass"
+    get_status "Web $IP_MGT:$PORT_GLASS" "curl http://$IP_MGT:$PORT_GLASS 2>/dev/null" "Glass | ISC DHCP Server"
     get_status "Docker: NMOS registry" "echo $dockerz" "nmos-registry-1"
+    get_status "Web $IP_MGT:$PORT_NMOS" "curl http://$IP_MGT:$PORT_NMOS 2>/dev/null" "admin.*schema.*x-nmos"
 
-    echo "-----------------------------------------------"
     show_header "Netbox"
     get_status "Docker: Netbox" "echo $dockerz" "netbox-netbox-1"
     get_status "Docker: Netbox Worker" "echo $dockerz" "netbox-netbox-worker-1"
@@ -70,7 +74,7 @@ get_all_status()
     get_status "Docker: Reddis" "echo $dockerz" "netbox-redis-1"
     get_status "Docker: Reddis Cache" "echo $dockerz" "netbox-redis-cache-1"
     get_status "Docker: Housekeeping" "echo $dockerz" "netbox-netbox-housekeeping-1"
-    get_status "Web: " "curl curl http://$IP_MGT:2000 2>/dev/null" "Home | NetBox"
+    get_status "Web $IP_MGT:$PORT_NETBOX" "curl http://$IP_MGT:$PORT_NETBOX 2>/dev/null" "Home | NetBox"
 }
 
 get_all_status
