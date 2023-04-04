@@ -4,8 +4,9 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-ExecStart=/usr/bin/env /usr/local/bin/docker-compose -f /home/lab/dev/st2110-automation-bench/server/docker-compose.yml up
-ExecStop=/usr/bin/env /usr/local/bin/docker-compose -f /home/lab/dev/st2110-automation-bench/server/docker-compose.yml stop
+WorkingDirectory=/home/lab/dev/st2110-automation-bench/server/
+ExecStart=/usr/bin/env /usr/local/bin/docker-compose up
+ExecStop=/usr/bin/env /usr/local/bin/docker-compose  stop
 
 [Install]
 WantedBy=multi-user.target
