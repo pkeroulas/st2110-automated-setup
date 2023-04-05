@@ -3,17 +3,19 @@
 import pynetbox
 from pprint import pprint
 
+# TODO don't hardcode the IP
 NETBOX='http://10.164.50.135:2000'
-# API tocken create in the web UI with superuser but
+
+# API tocken create in the web UI with 'smpte' user but
 # could habe been created from: nb.create_token(user, password)
-TOKEN='036f9bbb609c6c887d5ad5b18f70d616d58a4109'
+TOKEN='340d711f30b97b6fbf8d935f56403452bb6f8aae'
 nb = pynetbox.api(NETBOX, TOKEN)
 nb.http_session.verify = False
 nb.version
 
-devices=nb.dcim.devices.filter(devicetype="embox-6-u")
-fmt = "{:<20}{:<20}{:<20}"
-header = ("Name", "Device Role", "Description")
+devices=nb.dcim.devices.filter(device_type="embox-6-u")
+fmt = "{:<20}{:<20}{:<30}{:<60}"
+header = ("Name", "Device Role", "Description", "Config Context")
 print(fmt.format(*header))
 for dev in devices:
     print(
@@ -21,5 +23,10 @@ for dev in devices:
             dev.name,
             str(dev.device_role.name),
             dev.description,
+            str(dev.config_context) # json in NB -> dict in pynetbox
         )
     )
+    ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
+    for iface in ifaces:
+        print("    - iface: {}, mac: {}".format(iface.name, iface.mac_address))
+
