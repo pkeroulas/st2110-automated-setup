@@ -50,7 +50,7 @@ port_status()
     get_status "Link" "ip addr show $iface" "$iface: .* UP" "$iface $ip"
     get_status "IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
     get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
-    get_status "Internet" "ping -c 1 -W 1 8.8.8.8" "1 received"
+    get_status "Internet" "ping -I $iface -c 1 -W 1 8.8.8.8" "1 received"
 }
 
 get_all_status()
