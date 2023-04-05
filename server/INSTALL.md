@@ -5,7 +5,7 @@
 On a debian-based host, install basic tools from the terminal:
 
 ```
-sudo apt install openssh-server git tig curl docker.io net-tools vim
+sudo apt install openssh-server git tig curl docker.io net-tools vim lldpd
 sudo usermod -aG docker $USER
 ```
 

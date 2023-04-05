@@ -46,16 +46,21 @@ port_status()
     iface=$2
     ip=$(ip addr show $iface | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
     gw=$(ip route | sed -n 's/default via \(.*\) dev '""$(echo $iface | tr -d '\n')""' .*/\1/p')
+
+    #maybe
+    #switch_name=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*SysName: \(.*\)/\1/p')
+    #switch_ip=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*MgmtIP: \(.*\)/\1/p')
+    #media_gw_port=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*PortID: \(.*\)/\1/p')
     show_header "Network interface: $name"
     get_status "Link" "ip addr show $iface" "$iface: .* UP" "$iface $ip"
     get_status "IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
     get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
-    get_status "Internet" "ping -I $iface -c 1 -W 1 8.8.8.8" "1 received"
 }
 
 get_all_status()
 {
     port_status "Management" $IFACE_MGT
+    get_status  "Internet" "ping -I $IFACE_MGT -c 1 -W 1 8.8.8.8" "1 received"
     port_status "Infra" $IFACE_INFRA
 
     dockerz=$(docker ps)
