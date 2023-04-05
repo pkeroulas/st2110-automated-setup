@@ -1,14 +1,19 @@
-# Install #
+# Install
 
 ## Pre-requisites
 
-On a debian-based host:
+On a debian-based host, install basic tools from the terminal:
 
 ```
-apt install openssh-server git tig curl docker net-tools vim
+sudo apt install openssh-server git tig curl docker.io net-tools vim
+sudo usermod -aG docker $USER
 ```
 
-Also install docker-compose
+Also install docker-compose:
+
+```
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+```
 
 ## Install the package
 
@@ -22,10 +27,25 @@ echo "$(pwd)/server/status.sh" >> ~/.bashrc
 
 ## Network config
 
-* uplink to the site network for users (DHCP)
-* interface connected to the bench for the devices (Static IP)
+Need for 2 interfaces:
 
-Install the network config
+1) uplink to the site network for users (DHCP)
+2) infra gateway for the devices (Static IP)
+
+List the interfaces on the host:
+
+```
+ip l
+[...]
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 94:c6:91:16:52:8b brd ff:ff:ff:ff:ff:ff
+    altname enp0s31f6
+3: enx00e04c0208a4: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether 00:e0:4c:02:08:a4 brd ff:ff:ff:ff:ff:ff
+```
+
+Edit the network config file `./server/netplan.yaml` to set the interface names.
+And apply:
 
 ```
 sudo cp ./server/netplan.yaml /etc/netplan/01-network-manager-all.yaml
@@ -47,6 +67,10 @@ ip a
 ```
 
 ## Disable Suspend/Hibernate
+
+In `Settings`, set the `Power` to `High performance` and `Never` sleep.
+
+Not sure this is necessary:
 
 ```
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -71,6 +95,9 @@ systemctl start infra
 
 ## Netbox
 
+
+### Start the service
+
 Configure the http port and copy:
 
 ```
@@ -84,23 +111,27 @@ cp ./netbox.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable netbox
 systemctl start netbox
-# DO NEVER `docker-compose down` this one, the DB is wiped !!!!
+# DO NEVER `docker-compose down` this one, the DB would be wiped !!!!
 ```
 
-Create the superuser on 1st exec:
+`docker ps` command should show netbox containers running.
+
+### Create the users
+
+Create the superuser:
 
 ```
 cd ./netbox/
 docker-compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
-Login to the web UI using the superuser and create:
+Login to the web UI as the superuser and create a normal user (r/w).
 
-- a normal user (r/w)
-- a API token (r/w)
+Login as the normal user and create an API token (r/w).
 
+### Import initial data
 
-Import initial data:
+From the UI, import:
 
 - the manufactors: `./netbox-custom/manufacturers.csv`
 - the device types: `./netbox-custom/device_types.yaml`
