@@ -18,6 +18,8 @@ sudo curl -SL https://github.com/docker/compose/releases/download/v2.17.2/docker
 ## Install the package
 
 ```
+mkdir dev
+cd dev
 git clone https://pkeroulas@bitbucket.org/cbcrc/st2110-automation-bench.git
 cd st2110-automation-bench
 git submodule update --init
