@@ -152,3 +152,39 @@ Login as the normal and import files from [./netbox-custom](./netbox-custom) in 
 |2| Netbox Menu > Devices > Device Types  | [device_types.yaml](./netbox-custom/device_types.yaml)
 |3| Netbox Menu > Devices > Device Roles  | [device_roles.csv ](./netbox-custom/device_roles.csv )
 |4| Netbox Menu > Organization > Sites    | [sites.csv        ](./netbox-custom/sites.csv        )
+
+## Riedel Tools
+
+### MNSet:
+
+Test on Debian 11 only. Pre-requisite, install install Java and MongoDB:
+
+
+```
+sudo -i
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+apt update
+apt-get -y install default-jre gnupg2 wget mongodb-org
+```
+
+Get Linux version of MNSet on [Riedel website](https://www.riedel.net/en/downloads/firmware-software) and copy on the server.
+
+```
+ls mnset-5.21N-86-x86_64.tgz
+mkdir mnset
+mnset-5.21N-86-x86_64.tgz
+tar xaf mnset-5.21N-86-x86_64.tgz -C mnset
+cd ./mnset/
+sed -i 's/ubuntu/debian/g' ./common.sh # ONLY if running Debian
+sudo install.sh
+1) MNSET
+Port: 4000
+[...]
+```
+
+## Verify
+
+```
+./status.sh
+```

@@ -4,6 +4,7 @@
 IFACE_MGT=eno1
 IFACE_INFRA=enx00e04c0208a4
 PORT_NETBOX=2000
+PORT_MNSET=4000
 PORT_GLASS=3000
 PORT_NMOS=8000
 IP_MGT=$(ip addr show $IFACE_MGT | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
@@ -80,6 +81,11 @@ get_all_status()
     get_status "Docker: Reddis Cache" "echo $dockerz" "netbox-redis-cache-1"
     get_status "Docker: Housekeeping" "echo $dockerz" "netbox-netbox-housekeeping-1"
     get_status "Web $IP_MGT:$PORT_NETBOX" "curl http://$IP_MGT:$PORT_NETBOX 2>/dev/null" "Home | NetBox"
+
+    show_header "Riedel Tools"
+    get_status "MNSET java" "ps aux" "[j]ava"
+    get_status "MNSET mongo" "ps aux" "[m]ongod"
+    get_status "MNSET $IP_MGT:$PORT_MNSET" "curl http://$IP_MGT:$PORT_MNSET 2>/dev/null" "MN SET"
 }
 
 get_all_status
