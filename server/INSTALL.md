@@ -50,12 +50,21 @@ ip l
     link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
 ```
 
-Edit the network config file `./server/netplan.yaml` to set the interface names.
-And apply:
+Ubuntu: edit the network config file `./netplan.yaml` to set the interface names and apply:
 
 ```
-sudo cp ./server/netplan.yaml /etc/netplan/01-network-manager-all.yaml
+sudo cp ./netplan.yaml /etc/netplan/01-network-manager-all.yaml
 sudo netplan apply
+```
+
+Debian: edit the network config file `./interfaces` to set the interface names and apply:
+
+```
+sudo cp ./interfaces /etc/network/interfaces.d/
+sudo systemctl restart networking.service # and pray
+```
+
+```
 ip a
 2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 94:c6:91:16:52:8b brd ff:ff:ff:ff:ff:ff
