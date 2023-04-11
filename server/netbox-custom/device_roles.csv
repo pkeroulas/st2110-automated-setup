@@ -1,0 +1,3 @@
+Name,Devices,VMs,Color,VM Role,Description,ID,Slug,Tags,Created,Last updated
+IP-to-SDI gateway,0,0,#9e9e9e,True,,1,ip-to-sdi-gateway,,2023-04-11 19:48,2023-04-11 19:48
+SDI-to-IP gateway,0,0,#9e9e9e,True,,2,sdi-to-ip-gateway,,2023-04-11 19:48,2023-04-11 19:48

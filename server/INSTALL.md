@@ -140,13 +140,15 @@ cd ./netbox/
 docker-compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 ```
 
-Login to the web UI as the superuser and create a normal user (r/w).
-
-Login as the normal user and create an API token (r/w).
+Login to the web UI as the superuser and create a normal user (r/w). Then create an API token (r/w) and link to the normal user.
 
 ### Import initial data
 
-From the UI, import:
+Login as the normal and import files from [./netbox-custom](./netbox-custom) in the following order:
 
-- the manufactors: `./netbox-custom/manufacturers.csv`
-- the device types: `./netbox-custom/device_types.yaml`
+|*Step*|*Menu Section*|*Import file*|
+|------|--------------|-------------|
+|1| Netbox Menu > Devices > Manufacturers | [manufacturers.csv](./netbox-custom/manufacturers.csv)
+|2| Netbox Menu > Devices > Device Types  | [device_types.yaml](./netbox-custom/device_types.yaml)
+|3| Netbox Menu > Devices > Device Roles  | [device_roles.csv ](./netbox-custom/device_roles.csv )
+|4| Netbox Menu > Organization > Sites    | [sites.csv        ](./netbox-custom/sites.csv        )
