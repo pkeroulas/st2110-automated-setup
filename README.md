@@ -19,10 +19,18 @@
 Test services:
 
 ```
-IP=10.164.50.135
+IP=10.164.50.135 # server IP for user access
 firefox http://$IP:2000  http://$IP:3000/admin/#/ http://$IP:4000/ http:$IP:8000
 ```
 
-## Scripts:
+## Infra Network (static)
+
+* server/gateway: 192.168.0.254/24
+
+## Scripts (helpers)
 
 [Installation guide](./scripts/INSTALL.md).
+
+## Ansible
+
+[User guide](./ansible/README.md).

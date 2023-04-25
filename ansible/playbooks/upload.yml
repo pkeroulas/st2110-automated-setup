@@ -1,0 +1,23 @@
+---
+- name: Upload Config
+  hosts: MTL-LAB1S3-MPX-XLF229
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  #vars_files:
+  #  - ../common_vars/all/vaul  t.yml
+  tasks:
+    - name: Validate fabric state
+      import_role:
+         name: arista.avd.eos_validate_state
+
+    - name: provision switch with AVD configuration
+      vars:
+        root_dir: './'
+        inventory_dir: './inventories/'
+        eos_config_deploy_eapi_pre_running_config_backup: true
+        pre_running_config_backup_dir: './backup/'
+        pre_running_config_backup_filename: 'switch'
+      import_role:
+        name: arista.avd.eos_config_deploy_eapi
