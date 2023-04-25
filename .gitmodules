@@ -4,3 +4,6 @@
 [submodule "server/netbox"]
 	path = server/netbox
 	url = https://github.com/netbox-community/netbox-docker.git
+[submodule "ansible/avd"]
+	path = ansible/avd
+	url = https://github.com/aristanetworks/ansible-avd.git
