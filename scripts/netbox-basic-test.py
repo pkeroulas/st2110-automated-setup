@@ -8,7 +8,7 @@ NETBOX='http://10.164.50.135:2000'
 
 # API tocken create in the web UI with 'smpte' user but
 # could habe been created from: nb.create_token(user, password)
-TOKEN='340d711f30b97b6fbf8d935f56403452bb6f8aae'
+TOKEN='18db3f77e7fce958f1dff8aadb655636216cc859'
 nb = pynetbox.api(NETBOX, TOKEN)
 nb.http_session.verify = False
 nb.version
