@@ -8,7 +8,7 @@ Pre-requisistes: docker
 docker login https://asd-repo.cbc-rc.ca:43300
 docker pull deplops/avdbase
 cd ./ansible
-docker run --rm -it -v ${PWD}:/projects deplops/avdbase
+docker run --rm -it -v ${PWD}:/projects deplops/avdbase:3.8.5
 ```
 
 ## Upload the switch config
