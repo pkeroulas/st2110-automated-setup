@@ -1,0 +1,4 @@
+---
+# defaults file for get_netbox_data
+netbox_url: "http://192.168.0.254:2000"
+netbox_token: "18db3f77e7fce958f1dff8aadb655636216cc859"

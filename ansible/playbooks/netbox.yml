@@ -1,0 +1,17 @@
+---
+- name: Get Netbox Data and update group var.
+  hosts: localhost
+  gather_facts: no
+  vars:
+    - ansible_python_interpreter: "/usr/bin/env python"
+      #vars_files:
+      #  - ../common_vars/all/vault.yml
+  tasks:
+      #- name: Include variable file in fabric_vars.
+      #  tags: [create, update]
+      #  include_vars: '../fabric_vars/ott_mpx.yml'
+      #  delegate_to: localhost
+    - name: Get Netbox Data
+      import_role:
+        name: get_netbox_data
+
