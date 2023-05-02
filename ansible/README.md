@@ -2,11 +2,16 @@
 
 ## Setup
 
-Pre-requisistes: docker
+Pre-requisistes: pull docker image that include ansible libs:
 
 ```
-docker login https://asd-repo.cbc-rc.ca:43300
-docker pull deplops/avdbase
+docker pull deplops/avdbase:3.8.5
+```
+
+Pull `ansbile-avd` git submodule and start the docker container:
+
+```
+git submodule update --recursive --init
 cd ./ansible
 docker run --rm -it -v ${PWD}:/projects deplops/avdbase:3.8.5
 ```

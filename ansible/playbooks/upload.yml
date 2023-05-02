@@ -5,19 +5,16 @@
   gather_facts: false
   collections:
     - arista.avd
-  #vars_files:
-  #  - ../common_vars/all/vaul  t.yml
   tasks:
-    - name: Validate fabric state
+    - name: generate device intended config and documentation
       import_role:
-         name: arista.avd.eos_validate_state
-
+        name: arista.avd.eos_cli_config_gen
     - name: provision switch with AVD configuration
       vars:
-        root_dir: './'
-        inventory_dir: './inventories/'
         eos_config_deploy_eapi_pre_running_config_backup: true
-        pre_running_config_backup_dir: './backup/'
-        pre_running_config_backup_filename: 'switch'
+        pre_running_config_backup_dir_name: 'backup/'
+        pre_running_config_backup_filename: 'pre'
+        post_running_config_backup_dir_name: 'backup/'
+        post_running_config_backup_filename: 'post'
       import_role:
         name: arista.avd.eos_config_deploy_eapi
