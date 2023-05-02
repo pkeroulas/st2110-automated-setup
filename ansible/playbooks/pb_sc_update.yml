@@ -1,0 +1,14 @@
+- name: Build Arista EOS EVPN/VXLAN Configuration
+  hosts: MTL-LAB1S3-MPX-XLF229
+  tags: [build]
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+    - arista.cvp
+  tasks:
+
+    - name: Generate device intended config and documentation
+      tags: [build]
+      import_role:
+        name: eos_cli_config_gen
