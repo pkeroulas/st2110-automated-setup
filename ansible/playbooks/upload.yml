@@ -12,9 +12,5 @@
     - name: provision switch with AVD configuration
       vars:
         eos_config_deploy_eapi_pre_running_config_backup: true
-        pre_running_config_backup_dir_name: 'backup/'
-        pre_running_config_backup_filename: 'pre'
-        post_running_config_backup_dir_name: 'backup/'
-        post_running_config_backup_filename: 'post'
       import_role:
         name: arista.avd.eos_config_deploy_eapi
