@@ -71,13 +71,11 @@ ip a
     altname enp0s31f6
     inet 10.164.50.135/23 brd 10.164.51.255 scope global dynamic noprefixroute eno1             <------------------- site IP (users)
        valid_lft 537sec preferred_lft 537sec
-    inet6 fe80::96c6:91ff:fe16:528b/64 scope link 
-       valid_lft forever preferred_lft forever
-3: enx00e04c0208a4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+23: enx00e04c0208a4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 00:e0:4c:02:08:a4 brd ff:ff:ff:ff:ff:ff
-    inet 192.168.0.254/24 brd 192.168.0.255 scope global noprefixroute enx00e04c0208a4          <------------------ server IP for the bench
+    inet 192.168.0.254/24 scope global enx00e04c0208a4 < --------------------- for the switch
        valid_lft forever preferred_lft forever
-    inet6 fe80::2e0:4cff:fe02:8a4/64 scope link 
+    inet 192.168.1.254/24 scope global enx00e04c0208a4 <-------------------- st2110 network
        valid_lft forever preferred_lft forever
 ```
 

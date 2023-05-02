@@ -1,13 +1,17 @@
  #!/bin/bash
 
-
 IFACE_MGT=eno1
 IFACE_INFRA=enx00e04c0208a4
+IP_SW=192.168.0.1
 PORT_NETBOX=2000
 PORT_MNSET=4000
 PORT_GLASS=3000
 PORT_NMOS=8000
-IP_MGT=$(ip addr show $IFACE_MGT | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
+IP_MGT=$(ip addr show $IFACE_MGT | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p' | head -n1)
+
+if [ "$1" = '-v' ]; then
+    set -x
+fi
 
 show_header()
 {
@@ -45,16 +49,18 @@ port_status()
 {
     name=$1
     iface=$2
-    ip=$(ip addr show $iface | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
-    gw=$(ip route | sed -n 's/default via \(.*\) dev '""$(echo $iface | tr -d '\n')""' .*/\1/p')
+    ips=$(ip addr show $iface | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p')
+    gw=$(ip route | sed -n 's/default via \(.*\) dev '""$(echo $iface | tr -d '\n')""' .*/\1/p' | head -n1)
 
     #maybe
     #switch_name=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*SysName: \(.*\)/\1/p')
     #switch_ip=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*MgmtIP: \(.*\)/\1/p')
     #media_gw_port=$(lldpcli show neighbors port $iface | tr -s ' ' | sed -n 's/.*PortID: \(.*\)/\1/p')
     show_header "Network interface: $name"
-    get_status "Link" "ip addr show $iface" "$iface: .* UP" "$iface $ip"
-    get_status "IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
+    get_status "Link" "ip addr show $iface" "$iface.* UP" "$iface"
+    for ip in $ips; do
+        get_status "IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
+    done
     get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
 }
 
@@ -62,11 +68,13 @@ get_all_status()
 {
     port_status "Management" $IFACE_MGT
     get_status  "Internet" "ping -I $IFACE_MGT -c 1 -W 1 8.8.8.8" "1 received"
-    port_status "Infra" $IFACE_INFRA
+
+    port_status "Switch" $IFACE_INFRA
+    get_status "IP" "ping -c 1 -W 1 $IP_SW" "1 received" "switch $IP_SW"
 
     dockerz=$(docker ps)
 
-    show_header "Infra"
+    show_header "Net services"
     get_status "Docker: ISC DHCP"       "echo $dockerz" "dhcp"
     get_status "Docker: DHCP Glass" "echo $dockerz" "server-glass"
     get_status "Web $IP_MGT:$PORT_GLASS" "curl http://$IP_MGT:$PORT_GLASS 2>/dev/null" "Glass | ISC DHCP Server"
@@ -89,3 +97,4 @@ get_all_status()
 }
 
 get_all_status
+set +x
