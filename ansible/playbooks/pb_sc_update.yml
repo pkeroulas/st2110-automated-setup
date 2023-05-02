@@ -5,7 +5,6 @@
   gather_facts: false
   collections:
     - arista.avd
-    - arista.cvp
   tasks:
 
     - name: Generate device intended config and documentation
