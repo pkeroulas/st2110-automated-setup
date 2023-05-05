@@ -1,8 +1,18 @@
 auto eno1
 iface eno1 inet dhcp
 
-iface enx00e04c0208a4 inet static
-	address 192.168.0.254/24
+auto vlan2
+iface vlan2 inet static
+vlan_raw_device enx00e04c0208a4
+address 192.168.0.254
+netmask 255.255.255.0
+network 192.168.0.0
+broadcast 192.168.0.255
 
-iface enx00e04c0208a4 inet static
-	address 192.168.1.254/24
+auto vlan3
+iface vlan3 inet static
+vlan_raw_device enx00e04c0208a4
+address 192.168.1.254
+netmask 255.255.255.0
+network 192.168.1.0
+broadcast 192.168.1.255

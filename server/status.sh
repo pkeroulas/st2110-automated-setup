@@ -2,7 +2,10 @@
 
 IFACE_MGT=eno1
 IFACE_INFRA=enx00e04c0208a4
+IFACE_SW=vlan2
+IFACE_ST2110=vlan3
 IP_SW=192.168.0.1
+IP_ST2110=192.168.1.1
 PORT_NETBOX=2000
 PORT_MNSET=4000
 PORT_GLASS=3000
@@ -59,7 +62,7 @@ port_status()
     show_header "Network interface: $name"
     get_status "Link" "ip addr show $iface" "$iface.* UP" "$iface"
     for ip in $ips; do
-        get_status "IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
+        get_status "Local IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
     done
     get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
 }
@@ -69,8 +72,13 @@ get_all_status()
     port_status "Management" $IFACE_MGT
     get_status  "Internet" "ping -I $IFACE_MGT -c 1 -W 1 8.8.8.8" "1 received"
 
-    port_status "Switch" $IFACE_INFRA
-    get_status "IP" "ping -c 1 -W 1 $IP_SW" "1 received" "switch $IP_SW"
+    port_status "Infra" $IFACE_INFRA
+    #get_status "IP" "ping -c 1 -W 1 $IP_SW" "1 received" "switch $IP_SW"
+
+    port_status "Switch" $IFACE_SW
+    get_status "Vlan iface" "ping -c 1 -W 1 $IP_SW" "1 received" "$IP_SW"
+    port_status "ST 2110" $IFACE_ST2110
+    get_status "Vlan iface" "ping -c 1 -W 1 $IP_ST2110" "1 received" "$IP_ST2110"
 
     dockerz=$(docker ps)
 
