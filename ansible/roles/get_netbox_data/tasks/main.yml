@@ -1,0 +1,22 @@
+---
+# tasks file for get_netbox_data
+# - name: Get Prefixes and Connection information from NetBox
+#   tags: [update]
+#   get_netbox_data:
+#     nb_host: '{{ netbox_url }}'
+#     token: "{{vault_netbox_prod}}"
+#     network: '{{system}}'
+#     sub_networks: "{{ op_network }}"
+#     locations: {'rt' : '{{ root_dir }}/{{ city }}/{{ system }}_rt' ,
+#                 'ctrl' : '{{ root_dir }}/{{ city }}/{{ system }}_ctrl' ,
+#                 'vars' : '{{ root_dir }}/{{ city }}/netbox_vars/{{ system }}' ,
+#                 'cvp_name' : '{{ cvp_name }}' ,
+#                 'cvp_ip' : '{{cvp_ip_address}}' }
+#   delegate_to: localhost
+
+- name: Get switch and device information from NetBox
+  get_netbox_data:
+    nb_host: '{{ netbox_url }}'
+    token: "{{ netbox_token }}"
+    config_dir: '../inventories/switch/intended/structured_configs/'
+  delegate_to: localhost

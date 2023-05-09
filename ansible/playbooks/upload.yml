@@ -5,11 +5,21 @@
   gather_facts: false
   collections:
     - arista.avd
+  vars:
+    - ansible_python_interpreter: "/usr/bin/env python"
+      #vars_files:
+      #  - ../common_vars/all/vault.yml
   tasks:
-    - name: generate device intended config and documentation
+    - name: Get Netbox Data
+      tags: [netbox]
+      import_role:
+        name: get_netbox_data
+    - name: Generate device intended config and documentation
+      tags: [generate]
       import_role:
         name: arista.avd.eos_cli_config_gen
-    - name: provision switch with AVD configuration
+    - name: Provision switch with AVD configuration
+      tags: [upload]
       vars:
         eos_config_deploy_eapi_pre_running_config_backup: true
       import_role:

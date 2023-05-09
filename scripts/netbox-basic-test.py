@@ -4,7 +4,7 @@ import pynetbox
 from pprint import pprint
 
 # TODO don't hardcode the IP
-NETBOX='http://10.164.50.135:2000'
+NETBOX='http://10.164.50.37:2000'
 
 # API tocken create in the web UI with 'smpte' user but
 # could habe been created from: nb.create_token(user, password)
