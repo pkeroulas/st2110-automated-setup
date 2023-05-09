@@ -49,6 +49,30 @@ def hash_yaml_file(filename):
     print('no-file {}',e)
   return hash_md5.hexdigest()
 
+STRUCTURE_PORT_TEMPLATE = {
+  "description": "indress 2110",
+  "shutdown": False,
+  "speed": "forced 25gfull",
+  "error_correction_encoding": {
+    "enabled": False
+  },
+  "type": "switched",
+  "mode": "access",
+  "vlans": 3,
+  "spanning_tree_portfast": "edge",
+  "ptp": {
+    "enable": True,
+    "announce": {
+      "interval": 0
+    },
+    "delay_req": -3,
+    "sync_message": {
+      "interval": -3
+    },
+    "role": "master"
+  }
+}
+
 def main():
   module = AnsibleModule(
     argument_spec=dict(
@@ -77,11 +101,15 @@ def main():
 
     nb_ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
     for nb_iface in nb_ifaces:
-      if not nb_iface.name in structured_config['ethernet_interfaces'] or nb_iface.description == '':
+      if nb_iface.description == '':
         continue
+
+      # add missing
+      if not nb_iface.name in structured_config['ethernet_interfaces']:
+        structured_config['ethernet_interfaces'][nb_iface.name] = STRUCTURE_PORT_TEMPLATE
+
       structured_iface = structured_config['ethernet_interfaces'][nb_iface.name]
-
-
+      structured_iface['description'] = nb_iface.description
       MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description } { nb_iface.mode })  FOUND ")
 
       #VLANS
@@ -96,9 +124,7 @@ def main():
           for vlan in nb_iface.tagged_vlans:
               MODULE_LOGGER.info(f"   vlan {vlan.vid}")
               structured_vids += f"{ vlan.vid },"
-          structured_iface['vlans'] = structured_vids
-
-      structured_iface['description'] = nb_iface.description
+          structured_iface['vlans'] = structured_vids[:-1] #remove last ','
 
     write_yaml_file(config_file, structured_config, False)
     hash_end = hash_yaml_file(config_file)
