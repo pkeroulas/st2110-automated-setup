@@ -18,5 +18,5 @@
   get_netbox_data:
     nb_host: '{{ netbox_url }}'
     token: "{{ netbox_token }}"
-    config_file: '../inventories/switch/intended/structured_configs/MTL-LAB1S3-MPX-XLF229.yml'
+    config_dir: '../inventories/switch/intended/structured_configs/'
   delegate_to: localhost
