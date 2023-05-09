@@ -64,7 +64,8 @@ port_status()
     for ip in $ips; do
         get_status "Local IP" "ping -c 1 -W 1 $ip" "1 received" "$ip"
     done
-    get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
+    #FIXME
+    #get_status "GW" "ping -c 1 -W 1 $gw" "1 received" "$gw"
 }
 
 get_all_status()
@@ -77,6 +78,7 @@ get_all_status()
 
     port_status "Switch" $IFACE_SW
     get_status "Vlan iface" "ping -c 1 -W 1 $IP_SW" "1 received" "$IP_SW"
+    get_status "ssh port" "nmap -p 22 $IP_SW" "22.*open.*ssh"
     port_status "ST 2110" $IFACE_ST2110
     get_status "Vlan iface" "ping -c 1 -W 1 $IP_ST2110" "1 received" "$IP_ST2110"
 
