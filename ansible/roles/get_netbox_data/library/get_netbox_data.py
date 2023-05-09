@@ -73,19 +73,36 @@ def main():
     if structured_config == None:
         continue
     hash_init = hash_yaml_file(config_file)
-    MODULE_LOGGER.info(f"INIT {structured_config}")
+    #MODULE_LOGGER.info(f"INIT {structured_config}")
 
     nb_ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
     for nb_iface in nb_ifaces:
-      if nb_iface.name in structured_config['ethernet_interfaces'] and nb_iface.description != '':
-        MODULE_LOGGER.info(f"{ nb_iface.name } ({nb_iface.description}) FOUND ")
-        structured_config['ethernet_interfaces'][nb_iface.name]['description'] = nb_iface.description
-    else:
-        MODULE_LOGGER.info(f"{ nb_iface.name } NOT FOUND ")
+      if not nb_iface.name in structured_config['ethernet_interfaces'] or nb_iface.description == '':
+        continue
+      structured_iface = structured_config['ethernet_interfaces'][nb_iface.name]
+
+
+      MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description } { nb_iface.mode })  FOUND ")
+
+      #VLANS
+      if nb_iface.mode == None:
+          pass
+      elif nb_iface.mode.value == 'access':
+          structured_iface['mode'] = nb_iface.mode.value
+          structured_iface['vlans'] = nb_iface.untagged_vlan.vid
+      elif nb_iface.mode.value == 'tagged':
+          structured_iface['mode'] = 'trunk'
+          structured_vids = ''
+          for vlan in nb_iface.tagged_vlans:
+              MODULE_LOGGER.info(f"   vlan {vlan.vid}")
+              structured_vids += f"{ vlan.vid },"
+          structured_iface['vlans'] = structured_vids
+
+      structured_iface['description'] = nb_iface.description
 
     write_yaml_file(config_file, structured_config, False)
     hash_end = hash_yaml_file(config_file)
-    MODULE_LOGGER.info(f"END {structured_config}")
+    #MODULE_LOGGER.info(f"END {structured_config}")
     MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")
     has_changed = has_changed if hash_init == hash_end else True
 
