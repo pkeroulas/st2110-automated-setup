@@ -1,0 +1,4 @@
+VID,Name,Site,Group,Prefixes,Tenant,Status,Role,Description,ID,Tenant Group,Comments,Tags,L2VPN,Created,Last updated
+2,SW_MGMT,,,,,Active,,Switch management,1,,,,,2023-05-09 15:22,2023-05-09 15:22
+3,ST2110_CTRL,,,,,Active,,device control,2,,,,,2023-05-09 15:23,2023-05-09 15:24
+4,ST2110_MEDIA,,,,,Active,,device media,3,,,,,2023-05-09 15:24,2023-05-09 15:24
