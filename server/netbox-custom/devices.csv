@@ -1,0 +1,4 @@
+Name,Status,Tenant,Site,Location,Rack,Role,Manufacturer,Type,IP Address,ID,Tenant Group,Platform,Serial number,Asset tag,Region,Site Group,Position (U),Rack face,Airflow,IPv4 Address,IPv6 Address,Cluster,Virtual chassis,VC Position,VC Priority,Description,Comments,Contacts,Tags,Created,Last updated
+Camera Gateway,Active,,Mobile Studio,,,SDI-to-IP gateway,Riedel,EMBOX-3-U,,2,,,,,,,,,,,,,,,,,,,,2023-05-11 01:48,2023-05-11 01:48
+MTL-LAB1S3-MPX-XLF229,Active,,Mobile Studio,,,Standalone Media Switch,Arista,DCS-7280SR2-48YC6,,1,,,,,,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 20:00
+Monitor Gateway,Active,,Mobile Studio,,,IP-to-SDI gateway,Riedel,EMBOX-6-U,,3,,,,,,,,,,,,,,,,HDMI,,,,2023-05-11 01:49,2023-05-11 01:49

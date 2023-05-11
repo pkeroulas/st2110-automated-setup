@@ -1,0 +1,92 @@
+Name,Device,Label,Enabled,Type,Description,ID,Module bay,Module,Management only,MTU,Speed (Kbps),Duplex,Mode,MAC Address,WWN,PoE mode,PoE type,Wireless role,Wireless channel,Channel frequency (MHz),Channel width (MHz),Transmit power (dBm),Mark connected,Cable,Cable Color,Wireless link,Wireless LANs,Link Peers,Connection,Tags,VDCs,VRF,L2VPN,IP Addresses,FHRP Groups,Untagged VLAN,Tagged VLANs,Created,Last updated
+1,Camera Gateway,,True,SFP28 (25GE),,56,,,True,,,,Tagged,,,,,,,,,,False,#1,,,,"MTL-LAB1S3-MPX-XLF229
+    
+  
+  Ethernet33","MTL-LAB1S3-MPX-XLF229
+    
+  
+  Ethernet33",,,,,,,,"ST2110_CTRL (3)
+    
+        ST2110_MEDIA (4)",2023-05-11 01:48,2023-05-11 01:51
+2,Camera Gateway,,True,SFP28 (25GE),,57,,,True,,,,Tagged,,,,,,,,,,False,#2,,,,"MTL-LAB1S3-MPX-XLF229
+    
+  
+  Ethernet35","MTL-LAB1S3-MPX-XLF229
+    
+  
+  Ethernet35",,,,,,,,"ST2110_CTRL (3)
+    
+        ST2110_MEDIA (4)",2023-05-11 01:48,2023-05-11 01:52
+Ethernet49/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,1,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet50/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,2,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet51/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,3,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet52/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,4,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet53/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,5,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet54/1,MTL-LAB1S3-MPX-XLF229,,True,QSFP28 (100GE),,6,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet1,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,7,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet2,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,8,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet3,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,9,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet4,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,10,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet5,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,11,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet6,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,12,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet7,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,13,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet8,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,14,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet9,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,15,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet10,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,16,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet11,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,17,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet12,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,18,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet13,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,19,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet14,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,20,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet15,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,21,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet16,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,22,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet17,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,23,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet18,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,24,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet19,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,25,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet20,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,26,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet21,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,27,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet22,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,28,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet23,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,29,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet24,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,30,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet25,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,31,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet26,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,32,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet27,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,33,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet28,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,34,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet29,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,35,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet30,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,36,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet31,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,37,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet32,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,38,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet33,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),Encap primary,39,,,False,,,,Tagged,,,,,,,,,,False,#1,,,,"Camera Gateway
+    
+  
+  1","Camera Gateway
+    
+  
+  1",,,,,,,,"ST2110_CTRL (3)
+    
+        ST2110_MEDIA (4)",2023-05-08 18:19,2023-05-11 01:34
+Ethernet34,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),egress 2110,40,,,False,,0,,Access,,,,,,,,,,False,,,,,,,,,,,,,ST2110_MEDIA (4),,2023-05-08 18:19,2023-05-09 19:33
+Ethernet35,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),Encap secondary,41,,,False,,,,Tagged,,,,,,,,,,False,#2,,,,"Camera Gateway
+    
+  
+  2","Camera Gateway
+    
+  
+  2",,,,,,,ST2110_CTRL (3),ST2110_MEDIA (4),2023-05-08 18:19,2023-05-11 01:36
+Ethernet36,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,42,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet37,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,43,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet38,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,44,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet39,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,45,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet40,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,46,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet41,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,47,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet42,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,48,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet43,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,49,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet44,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,50,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet45,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,51,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet46,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,52,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet47,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),,53,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+Ethernet48,MTL-LAB1S3-MPX-XLF229,,True,SFP28 (25GE),Config server (laptop),54,,,False,,,,Tagged,,,,,,,,,,False,,,,,,,,,,,,,,"SW_MGMT (2)
+    
+        ST2110_CTRL (3)",2023-05-08 18:19,2023-05-09 19:34
+Management1,MTL-LAB1S3-MPX-XLF229,,True,1000BASE-T (1GE),,55,,,True,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 18:19
+3,Monitor Gateway,Red,True,SFP28 (25GE),,58,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-11 01:49,2023-05-11 01:49
+5,Monitor Gateway,Blue,True,SFP28 (25GE),,59,,,False,,,,,,,,,,,,,,False,,,,,,,,,,,,,,,2023-05-11 01:49,2023-05-11 01:49
