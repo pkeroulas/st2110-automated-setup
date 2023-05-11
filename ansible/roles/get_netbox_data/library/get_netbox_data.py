@@ -10,6 +10,7 @@ import yaml
 import pynetbox
 import hashlib
 import re
+import copy
 from ansible.module_utils.basic import AnsibleModule
 
 MODULE_LOGGER = logging.getLogger('get_netbox_data')
@@ -50,15 +51,13 @@ def hash_yaml_file(filename):
   return hash_md5.hexdigest()
 
 STRUCTURE_PORT_TEMPLATE = {
-  "description": "indress 2110",
+  "description": "unused",
   "shutdown": False,
   "speed": "forced 25gfull",
   "error_correction_encoding": {
     "enabled": False
   },
   "type": "switched",
-  "mode": "access",
-  "vlans": 3,
   "spanning_tree_portfast": "edge",
   "ptp": {
     "enable": True,
@@ -101,30 +100,32 @@ def main():
 
     nb_ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
     for nb_iface in nb_ifaces:
-      if nb_iface.description == '':
+      if nb_iface.name == 'Ethernet48': # Never touch the management link
         continue
 
       # add missing
       if not nb_iface.name in structured_config['ethernet_interfaces']:
-        structured_config['ethernet_interfaces'][nb_iface.name] = STRUCTURE_PORT_TEMPLATE
+        structured_config['ethernet_interfaces'][nb_iface.name] = copy.deepcopy(STRUCTURE_PORT_TEMPLATE)
 
       structured_iface = structured_config['ethernet_interfaces'][nb_iface.name]
       structured_iface['description'] = nb_iface.description
-      MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description } { nb_iface.mode })  FOUND ")
+      MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description })")
 
       #VLANS
-      if nb_iface.mode == None:
-          pass
-      elif nb_iface.mode.value == 'access':
-          structured_iface['mode'] = nb_iface.mode.value
-          structured_iface['vlans'] = nb_iface.untagged_vlan.vid
-      elif nb_iface.mode.value == 'tagged':
-          structured_iface['mode'] = 'trunk'
-          structured_vids = ''
-          for vlan in nb_iface.tagged_vlans:
-              MODULE_LOGGER.info(f"   vlan {vlan.vid}")
-              structured_vids += f"{ vlan.vid },"
-          structured_iface['vlans'] = structured_vids[:-1] #remove last ','
+      if nb_iface.mode == None: # delete iface
+          if hasattr(structured_iface, "mode"): del structured_iface['mode']
+          if hasattr(structured_iface, "vlans"): del structured_iface['vlans']
+      elif nb_iface.mode.value == 'access': # add access
+        structured_iface['mode'] = nb_iface.mode.value
+        structured_iface['vlans'] = nb_iface.untagged_vlan.vid
+      elif nb_iface.mode.value == 'tagged': # add trunk
+        structured_iface['mode'] = 'trunk'
+        structured_vids = ''
+        for vlan in nb_iface.tagged_vlans:
+          structured_vids += f"{ vlan.vid },"
+        structured_iface['vlans'] = structured_vids[:-1] #remove last ','
+        if nb_iface.untagged_vlan != None:
+          MODULE_LOGGER.info(f"What TODO with { nb_iface.untagged_vlan }")
 
     write_yaml_file(config_file, structured_config, False)
     hash_end = hash_yaml_file(config_file)
