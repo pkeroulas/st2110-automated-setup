@@ -100,7 +100,7 @@ def main():
 
     nb_ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
     for nb_iface in nb_ifaces:
-      if nb_iface.name == 'Ethernet48': # Never touch the management link
+      if nb_iface.name == 'Ethernet48' or nb_iface.name == 'Management1': # Never touch the management link,
         continue
 
       # add missing
