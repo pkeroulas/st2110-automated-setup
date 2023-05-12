@@ -51,7 +51,7 @@ def hash_yaml_file(filename):
   return hash_md5.hexdigest()
 
 STRUCTURE_PORT_TEMPLATE = {
-  "description": "unused",
+  "description": "_",
   "shutdown": False,
   "speed": "forced 25gfull",
   "error_correction_encoding": {
@@ -108,7 +108,7 @@ def main():
         structured_config['ethernet_interfaces'][nb_iface.name] = copy.deepcopy(STRUCTURE_PORT_TEMPLATE)
 
       structured_iface = structured_config['ethernet_interfaces'][nb_iface.name]
-      structured_iface['description'] = nb_iface.description
+      structured_iface['description'] = nb_iface.description if nb_iface.description != '' else '_'
       MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description })")
 
       #VLANS
