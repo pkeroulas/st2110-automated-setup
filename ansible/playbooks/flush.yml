@@ -1,0 +1,26 @@
+---
+- name: Upload BASE Config
+  hosts: MTL-LAB1S3-MPX-XLF229
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  vars:
+    - ansible_python_interpreter: "/usr/bin/env python"
+  tasks:
+    - name : Copy BASE intended config
+      tags: [copy]
+      copy:
+        src: '{{ inventory_dir }}/base/'
+        dest: '{{ inventory_dir }}/intended/structured_configs/'
+      with_fileglob: "*.yml"
+    - name: Generate device BASE config and documentation
+      tags: [generate]
+      import_role:
+        name: arista.avd.eos_cli_config_gen
+    - name: Provision switch with BASE config
+      tags: [upload]
+      vars:
+        eos_config_deploy_eapi_pre_running_config_backup: true
+      import_role:
+        name: arista.avd.eos_config_deploy_eapi

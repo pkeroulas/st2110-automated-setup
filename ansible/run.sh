@@ -4,11 +4,13 @@ docker_run () {
     docker run --rm -it -v ${PWD}:/projects deplops/avdbase:3.8.5
 }
 
-playbook='./playbooks/upload.yml'
-inventory="./inventories/switch/hosts.yml"
-upload="ansible-playbook -vv -i $inventory $playbook"
-generate="ansible-playbook -vv -i $inventory --tags netbox,generate,upload $playbook"
+upload='./playbooks/upload.yml'
+flush='./playbooks/flush.yml'
+inventory="-i ./inventories/switch/hosts.yml"
+ansible="ansible-playbook"
 
-
-echo Cmd exemple: $generate
+echo "Cmd exemple:
+$ansible $inventory $upload
+$ansible $inventory $flush
+"
 docker_run
