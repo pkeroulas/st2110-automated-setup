@@ -11,6 +11,7 @@ import pynetbox
 import hashlib
 import re
 import copy
+import os
 from ansible.module_utils.basic import AnsibleModule
 
 MODULE_LOGGER = logging.getLogger('get_netbox_data')
@@ -33,6 +34,11 @@ def write_yaml_file(filename, yaml_dict, sort=True):
     yaml.dump(yaml_dict, f, default_flow_style=False, indent=2, sort_keys=sort)
 
 def open_yaml_file(filename):
+  if not os.path.isfile(filename):
+    yaml_dict = {}
+    write_yaml_file(filename, yaml_dict, sort=True)
+    return yaml_dict
+
   with open(filename, 'r') as stream:
     try:
       return yaml.safe_load(stream)
@@ -72,26 +78,11 @@ STRUCTURE_PORT_TEMPLATE = {
   }
 }
 
-def main():
-  module = AnsibleModule(
-    argument_spec=dict(
-      nb_host=dict(type='str', required=True),
-      token=dict(type='str', required=True),
-      config_dir=dict(type='str', required=True),
-    ),
-    supports_check_mode=True,
-  )
-  nb_host = module.params['nb_host']
-  token = module.params['token']
-  config_dir  = module.params['config_dir']
-  nb = pynetbox.api(nb_host,token)
-  nb.http_session.verify = False
-
-  devices = nb.dcim.devices.filter(role='standalone-media-switch')
-  has_changed = False
+def process_switches(nb, config_dir, devices):
+  hash_init = hash_end = has_changed = False
   for dev in devices:
     MODULE_LOGGER.info(f"{ dev.name }")
-    config_file = f"{ config_dir }/{ dev.name }.yml"
+    config_file = f"{ config_dir }/{ dev.name.replace(' ', '_') }.yml"
     structured_config = open_yaml_file(config_file)
     if structured_config == None:
         continue
@@ -131,9 +122,33 @@ def main():
     hash_end = hash_yaml_file(config_file)
     #MODULE_LOGGER.info(f"END {structured_config}")
     MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")
-    has_changed = has_changed if hash_init == hash_end else True
 
-  module.exit_json(changed=has_changed, msg=f"Received from NetBox, url= {module.params['nb_host']}")
+  return has_changed if hash_init == hash_end else True
+
+def main():
+  module = AnsibleModule(
+    argument_spec=dict(
+      nb_host=dict(type='str', required=True),
+      token=dict(type='str', required=True),
+      config_dir=dict(type='str', required=True),
+      device_role=dict(type='str', required=True),
+    ),
+    supports_check_mode=True,
+  )
+  nb_host = module.params['nb_host']
+  token = module.params['token']
+  config_dir  = module.params['config_dir']
+  device_role  = module.params['device_role']
+  nb = pynetbox.api(nb_host,token)
+  nb.http_session.verify = False
+
+  devices = nb.dcim.devices.filter(role=device_role)
+  if device_role == 'standalone-media-switch':
+      ret = process_switches(nb, config_dir, devices)
+  else:
+      ret = false
+
+  module.exit_json(changed=ret, msg=f"Received from NetBox, url= {module.params['nb_host']}")
 
 if __name__ == "__main__":
   main()
