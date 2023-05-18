@@ -20,4 +20,5 @@
     token: '{{ netbox_token }}'
     config_dir: '{{ config_dir }}'
     device_role: '{{ device_role }}'
+    inventory_hostname: '{{ inventory_hostname }}'
   delegate_to: localhost
