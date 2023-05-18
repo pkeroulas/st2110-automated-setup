@@ -1,6 +1,9 @@
 ---
 - name: Upload Config
-  hosts: MTL-LAB1S3-MPX-XLF229
+  hosts:
+    prout
+    MTL-LAB1S3-MPX-XLF229
+  #hosts: '{{ fabric_name }}'
   connection: local
   gather_facts: false
   collections:
@@ -16,9 +19,11 @@
       tags: [generate]
       import_role:
         name: arista.avd.eos_cli_config_gen
+      when: ( device_role == 'standalone-media-switch')
     - name: Provision switch with AVD configuration
       tags: [upload]
       vars:
         eos_config_deploy_eapi_pre_running_config_backup: true
       import_role:
         name: arista.avd.eos_config_deploy_eapi
+      when: ( device_role == 'standalone-media-switch')

@@ -6,11 +6,13 @@ docker_run () {
 
 upload='./playbooks/upload.yml'
 flush='./playbooks/flush.yml'
-inventory="-i ./inventories/switch/hosts.yml"
+inventory_sw="-i ./inventories/switch/hosts.yml"
+inventory_gw="-i ./inventories/gateways/hosts.yml"
 ansible="ansible-playbook"
 
 echo "Cmd exemple:
-$ansible $inventory $upload
-$ansible $inventory $flush
+$ansible $sw_inventory $upload
+$ansible $sw_inventory $flush
+$ansible $gw_inventory $upload
 "
 docker_run

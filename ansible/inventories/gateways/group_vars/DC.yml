@@ -1,0 +1,9 @@
+---
+fabric_name: demo
+
+gateways:
+  nodes:
+    # Name of the node to be defined (must be consistent with definition in inventory)
+    prout:
+      # Device ID definition. An integer number used for internal calculations (ie. IPv4 address of the loopback_ipv4_pool among others)
+      id: 1

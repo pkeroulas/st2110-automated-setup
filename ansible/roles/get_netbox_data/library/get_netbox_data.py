@@ -125,6 +125,22 @@ def process_switches(nb, config_dir, devices):
 
   return has_changed if hash_init == hash_end else True
 
+def process_gateways(nb, config_dir, devices):
+  hash_init = hash_end = has_changed = False
+  for dev in devices:
+    config_file = f"{ config_dir }/{ dev.name.replace(' ', '_') }.yml"
+    structured_config = open_yaml_file(config_file)
+    if structured_config == None:
+        continue
+    hash_init = hash_yaml_file(config_file)
+
+    structured_config = dev.config_context
+
+    write_yaml_file(config_file, structured_config, False)
+    hash_end = hash_yaml_file(config_file)
+
+  return has_changed if hash_init == hash_end else True
+
 def main():
   module = AnsibleModule(
     argument_spec=dict(
@@ -145,6 +161,8 @@ def main():
   devices = nb.dcim.devices.filter(role=device_role)
   if device_role == 'standalone-media-switch':
       ret = process_switches(nb, config_dir, devices)
+  elif device_role == 'ip-to-hdmi-gateway':
+      ret = process_gateways(nb, config_dir, devices)
   else:
       ret = false
 
