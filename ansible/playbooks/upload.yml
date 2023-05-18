@@ -1,8 +1,9 @@
 ---
 - name: Upload Config
   hosts:
-    prout
-    MTL-LAB1S3-MPX-XLF229
+    gateway1
+    gateway2
+    switch1
   #hosts: '{{ fabric_name }}'
   connection: local
   gather_facts: false
