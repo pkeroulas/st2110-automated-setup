@@ -13,5 +13,5 @@
       #  delegate_to: localhost
     - name: Get Netbox Data
       import_role:
-        name: get_netbox_data
+        name: netbox
 

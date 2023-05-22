@@ -15,7 +15,7 @@
     - name: Get Netbox Data
       tags: [netbox]
       import_role:
-        name: get_netbox_data
+        name: netbox
     - name: Generate device intended config and documentation
       tags: [generate]
       import_role:

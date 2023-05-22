@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Copyright: (c) 2018, Société Radio-Canada>
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
 
 import logging
 import yaml
@@ -108,8 +103,11 @@ def process_switch(nb, struct_config, dev):
       if nb_iface.untagged_vlan != None:
         MODULE_LOGGER.info(f"What TODO with { nb_iface.untagged_vlan }")
 
-def process_gateway(nb, struc_config, dev):
-  struct_config =  dev.config_context
+def process_gateway(nb, struct_config, dev):
+  if 'a' in dev.config_context.keys():
+    return  dev.config_context
+  else:
+    return { 'template' : 'config' }
 
 def main():
   module = AnsibleModule(
@@ -142,7 +140,7 @@ def main():
     if device_role == 'standalone-media-switch':
         process_switch(nb, struct_config, dev)
     elif device_role == 'ip-to-hdmi-gateway' or device_role == 'sdi-to-ip-gateway':
-        process_gateway(nb, struct_config, dev)
+        struct_config = process_gateway(nb, struct_config, dev)
     else:
         continue
 

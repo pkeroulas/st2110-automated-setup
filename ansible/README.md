@@ -23,5 +23,5 @@ Once entered in the docker container, you'll see a couple of playbook
 commands like:
 
 ```
-ansible-playbook -vv -i ./inventories/switch/hosts.yml ./playbooks/upload.yml
+ansible-playbook -vv -i ./inventories/switch/hosts.yml ./playbooks/upload_config.yml
 ```
