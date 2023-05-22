@@ -58,7 +58,7 @@ def main():
 
   url = f"http://{ struct_config['host_ip'] }/emsfp/node/v1/"
   res = get_from_url(url)
-  MODULE_LOGGER.info(f"GET { req } >>> {} res }")
+  MODULE_LOGGER.info(f"GET { url } >>> { res }")
 
   # TODO: push
   has_changed = True
