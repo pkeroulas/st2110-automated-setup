@@ -16,6 +16,11 @@
       tags: [netbox]
       import_role:
         name: netbox
+    - name: Upload Gateway Config
+      tags: [upload]
+      import_role:
+        name: endpoints
+      when: ( device_role == 'ip-to-hdmi-gateway' or device_role == 'sdi-to-ip-gateway' )
     - name: Generate device intended config and documentation
       tags: [generate]
       import_role:
