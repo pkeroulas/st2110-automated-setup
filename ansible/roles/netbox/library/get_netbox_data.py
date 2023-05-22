@@ -7,6 +7,7 @@ import hashlib
 import re
 import copy
 import os
+from netaddr import *
 from ansible.module_utils.basic import AnsibleModule
 
 MODULE_LOGGER = logging.getLogger('get_netbox_data')
@@ -51,7 +52,7 @@ def hash_yaml_file(filename):
     print('no-file {}',e)
   return hash_md5.hexdigest()
 
-STRUCTURE_PORT_TEMPLATE = {
+SW_STRUCTURE_PORT_TEMPLATE = {
   "description": "_",
   "shutdown": False,
   "speed": "forced 25gfull",
@@ -81,7 +82,7 @@ def process_switch(nb, struct_config, dev):
 
     # add missing
     if not nb_iface.name in struct_config['ethernet_interfaces']:
-      struct_config['ethernet_interfaces'][nb_iface.name] = copy.deepcopy(STRUCTURE_PORT_TEMPLATE)
+      struct_config['ethernet_interfaces'][nb_iface.name] = copy.deepcopy(SW_STRUCTURE_PORT_TEMPLATE)
 
     structured_iface = struct_config['ethernet_interfaces'][nb_iface.name]
     structured_iface['description'] = nb_iface.description if nb_iface.description != '' else '_'
@@ -103,11 +104,24 @@ def process_switch(nb, struct_config, dev):
       if nb_iface.untagged_vlan != None:
         MODULE_LOGGER.info(f"What TODO with { nb_iface.untagged_vlan }")
 
+GW_STRUCTURE_PORT_TEMPLATE = {
+  "host_ip": "",
+  "hostname": "",
+  "description": "",
+  "role": "",
+  "config_context": { }
+}
+
 def process_gateway(nb, struct_config, dev):
-  if 'a' in dev.config_context.keys():
-    return  dev.config_context
-  else:
-    return { 'template' : 'config' }
+  struct_config = GW_STRUCTURE_PORT_TEMPLATE
+  struct_config['hostname'] = dev.name
+  struct_config['role'] = dev.device_role.slug
+  if dev.description != "":
+    struct_config['description'] = dev.description
+  if dev.primary_ip != None:
+    struct_config['host_ip'] = str(IPNetwork(dev.primary_ip.address).ip)
+  struct_config['config_context'] =  dev.config_context
+  return struct_config
 
 def main():
   module = AnsibleModule(
@@ -138,7 +152,7 @@ def main():
     hash_init = hash_yaml_file(config_file)
 
     if device_role == 'standalone-media-switch':
-        process_switch(nb, struct_config, dev)
+        struct_config = process_switch(nb, struct_config, dev)
     elif device_role == 'ip-to-hdmi-gateway' or device_role == 'sdi-to-ip-gateway':
         struct_config = process_gateway(nb, struct_config, dev)
     else:

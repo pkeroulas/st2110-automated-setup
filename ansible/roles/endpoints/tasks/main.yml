@@ -1,6 +1,6 @@
 ---
 # tasks file for endpoints
-- name: Get push endpoint (gateway) config
+- name: Push endpoint (gateway) config
   push_config:
     config_dir: '{{ config_dir }}'
     device_role: '{{ device_role }}'
