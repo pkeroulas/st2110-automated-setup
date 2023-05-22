@@ -13,7 +13,7 @@ from ansible.module_utils.basic import AnsibleModule
 MODULE_LOGGER = logging.getLogger('get_netbox_data')
 MODULE_LOGGER.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')
-file_handler = logging.FileHandler('../inventories/switch/get_netbox_data.log')
+file_handler = logging.FileHandler('../roles/netbox/get_netbox_data.log')
 file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(formatter)
 MODULE_LOGGER.addHandler(file_handler)
