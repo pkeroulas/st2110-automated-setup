@@ -1,17 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Copyright: (c) 2018, Société Radio-Canada>
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-#
 
 import logging
-import yaml
-import pynetbox
-import hashlib
-import re
-import copy
+import yaml, json
 import os
+import urllib.request
 from ansible.module_utils.basic import AnsibleModule
 
 MODULE_LOGGER = logging.getLogger('endpoint push config')
@@ -22,16 +14,6 @@ file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(formatter)
 MODULE_LOGGER.addHandler(file_handler)
 MODULE_LOGGER.info('Start gateways module execution')
-
-yaml.preserve_quotes = True
-
-class IndentDumper(yaml.Dumper):
-  def increase_indent(self, flow=False, indentless=False):
-    return super(IndentDumper, self).increase_indent(flow, False)
-
-def write_yaml_file(filename, yaml_dict, sort=True):
-  with open(filename, 'w') as f:
-    yaml.dump(yaml_dict, f, default_flow_style=False, indent=2, sort_keys=sort)
 
 def open_yaml_file(filename):
   if not os.path.isfile(filename):
@@ -46,6 +28,17 @@ def open_yaml_file(filename):
       print(exc)
       return None
 
+def get_from_url(url):
+  req = urllib.request.Request(url)
+  try:
+    with urllib.request.urlopen(req) as response:
+      return json.loads(response.read())
+  except urllib.error.URLError as e:
+    MODULE_LOGGER.error(f"{ e.reason }")
+    return {}
+  except Exception as e:
+    MODULE_LOGGER.error(f"{ e.reason }")
+    return {}
 
 def main():
   module = AnsibleModule(
@@ -62,6 +55,10 @@ def main():
   config_file = f"{ config_dir }/{ inventory_hostname }.yml"
   struct_config = open_yaml_file(config_file)
   MODULE_LOGGER.info(f" { config_file }: { struct_config }")
+
+  url = f"http://{ struct_config['host_ip'] }/emsfp/node/v1/"
+  res = get_from_url(url)
+  MODULE_LOGGER.info(f"GET { req } >>> {} res }")
 
   # TODO: push
   has_changed = True
