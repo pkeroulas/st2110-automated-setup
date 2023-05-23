@@ -55,7 +55,7 @@ def hash_yaml_file(filename):
 SW_STRUCTURE_PORT_TEMPLATE = {
   "description": "_",
   "shutdown": False,
-  "speed": "forced 25gfull",
+  "speed": "forced 10gfull",
   "error_correction_encoding": {
     "enabled": False
   },
