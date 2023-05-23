@@ -1,10 +1,7 @@
 ---
-- name: Upload Config
+- name: UPLOAD SWITCH CONFIG
   hosts:
-    gateway1
-    gateway2
     switch1
-  #hosts: '{{ fabric_name }}'
   connection: local
   gather_facts: false
   collections:
@@ -16,20 +13,13 @@
       tags: [netbox]
       import_role:
         name: netbox
-    - name: Upload Gateway Config
-      tags: [upload]
-      import_role:
-        name: endpoints
-      when: ( device_role == 'ip-to-hdmi-gateway' or device_role == 'sdi-to-ip-gateway' )
     - name: Generate device intended config and documentation
       tags: [generate]
       import_role:
         name: arista.avd.eos_cli_config_gen
-      when: ( device_role == 'standalone-media-switch')
     - name: Provision switch with AVD configuration
       tags: [upload]
       vars:
         eos_config_deploy_eapi_pre_running_config_backup: true
       import_role:
         name: arista.avd.eos_config_deploy_eapi
-      when: ( device_role == 'standalone-media-switch')
