@@ -104,6 +104,8 @@ def process_switch(nb, struct_config, dev):
       if nb_iface.untagged_vlan != None:
         MODULE_LOGGER.info(f"What TODO with { nb_iface.untagged_vlan }")
 
+  return struct_config
+
 GW_STRUCTURE_PORT_TEMPLATE = {
   "host_ip": "",
   "hostname": "",
