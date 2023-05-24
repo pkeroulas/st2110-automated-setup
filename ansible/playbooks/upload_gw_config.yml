@@ -1,0 +1,20 @@
+---
+- name: UPLOAD GATEWAYS CONFIG
+  hosts:
+    gateway1
+    gateway2
+  connection: local
+  gather_facts: false
+  collections:
+    - arista.avd
+  vars:
+    - ansible_python_interpreter: "/usr/bin/env python"
+  tasks:
+    - name: Get Netbox Data
+      tags: [netbox]
+      import_role:
+        name: netbox
+    - name: Upload Gateway Config
+      tags: [upload]
+      import_role:
+        name: endpoints

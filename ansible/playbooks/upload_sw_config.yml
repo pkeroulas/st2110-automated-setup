@@ -1,7 +1,6 @@
 ---
 - name: UPLOAD SWITCH CONFIG
-  hosts:
-    switch1
+  hosts: switch1
   connection: local
   gather_facts: false
   collections:

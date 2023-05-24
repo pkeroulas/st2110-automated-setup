@@ -17,6 +17,8 @@ cd ./ansible
 ./run.sh
 ```
 
+Enter a dummy password for the vault as this demo project doesn't use any vault.
+
 ## Upload the switch config
 
 Once entered in the docker container, you'll see a couple of playbook

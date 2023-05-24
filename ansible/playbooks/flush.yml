@@ -1,6 +1,6 @@
 ---
 - name: Upload switch BASE Config
-  hosts: MTL-LAB1S3-MPX-XLF229
+  hosts: switch1
   connection: local
   gather_facts: false
   collections:
