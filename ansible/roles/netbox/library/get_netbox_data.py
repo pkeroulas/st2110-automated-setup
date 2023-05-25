@@ -118,6 +118,7 @@ def process_gateway(nb, struct_config, dev):
   struct_config = GW_STRUCTURE_PORT_TEMPLATE
   struct_config['hostname'] = dev.name
   struct_config['role'] = dev.device_role.slug
+  struct_config['status'] = dev.status.value
   if dev.description != "":
     struct_config['description'] = dev.description
   if dev.primary_ip != None:
@@ -145,25 +146,29 @@ def main():
   nb.http_session.verify = False
 
   hash_init = hash_end = has_changed = False
-  devices = nb.dcim.devices.filter(role=device_role)
-  for dev in devices:
-    config_file = f"{ config_dir }/{ inventory_hostname }.yml"
-    struct_config = open_yaml_file(config_file)
-    if struct_config == None:
-        continue
-    hash_init = hash_yaml_file(config_file)
+  devices = nb.dcim.devices.filter(role=device_role, name=inventory_hostname)
+  if len(devices) == 0:
+    module.exit_json(changed=has_changed, msg=f"EXIT 0")
 
-    if device_role == 'standalone-media-switch':
-        struct_config = process_switch(nb, struct_config, dev)
-    elif device_role == 'ip-to-hdmi-gateway' or device_role == 'sdi-to-ip-gateway':
-        struct_config = process_gateway(nb, struct_config, dev)
-    else:
-        continue
+  config_file = f"{ config_dir }/{ inventory_hostname }.yml"
+  struct_config = open_yaml_file(config_file)
+  if struct_config == None:
+    module.exit_json(changed=has_changed, msg=f"EXIT 1")
+  hash_init = hash_yaml_file(config_file)
 
-    write_yaml_file(config_file, struct_config, False)
-    hash_end = hash_yaml_file(config_file)
-    MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")
-    has_changed = has_changed if hash_init == hash_end else True
+  dev = devices[0]
+  if device_role == 'standalone-media-switch':
+    struct_config = process_switch(nb, struct_config, dev)
+  elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':
+    struct_config = process_gateway(nb, struct_config, dev)
+    MODULE_LOGGER.info(f"{struct_config}")
+  else:
+    module.exit_json(changed=has_changed, msg=f"EXIT 2")
+
+  write_yaml_file(config_file, struct_config, False)
+  hash_end = hash_yaml_file(config_file)
+  MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")
+  has_changed = has_changed if hash_init == hash_end else True
 
   module.exit_json(changed=has_changed, msg=f"Received from NetBox, url= {module.params['nb_host']}")
 
