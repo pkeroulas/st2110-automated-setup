@@ -1,8 +1,8 @@
 ---
 - name: UPLOAD GATEWAYS CONFIG
   hosts:
-    gateway1
-    gateway2
+    MuonDecapGateway
+    MuonEncapGateway
   connection: local
   gather_facts: false
   collections:
