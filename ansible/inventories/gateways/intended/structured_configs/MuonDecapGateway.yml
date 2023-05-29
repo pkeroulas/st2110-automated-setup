@@ -1,0 +1,9 @@
+host_ip: 192.168.1.14
+hostname: MuonDecapGateway
+description: Monitoring
+role: ip-to-sdi-gateway
+config_context:
+  audio_map:
+    sdi1: ip1
+    sdi2: ip2
+status: active
