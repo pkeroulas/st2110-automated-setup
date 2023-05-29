@@ -1,14 +1,15 @@
-dhcp_conf_folder: './inventory/services/dhcpd.conf'
+dhcp_conf_folder: '../inventories/services/'
 dhcp_generated_cfg: '{{dhcp_conf_folder}}/dhcpd.conf'
 
 demo:
-  domain_name: prout
+  domain_name: demo.bootcamp.smpte
   default_lease_time: 600
   max_lease: 3600
   authoritative: true
 
   clients:
-      - {name: dev, mac: '00:00:00:00:00:00', ip4: 192.168.1.2}
+      - {name: MuonEncapGateway, mac: '40:a3:6b:a0:3b:c8', ip4: 192.168.1.2}
+      - {name: MuonDecapGateway, mac: '40:a3:6b:a0:29:dc', ip4: 192.168.1.3}
 
   subnets:
     control:
