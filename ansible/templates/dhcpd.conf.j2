@@ -1,0 +1,40 @@
+option domain-name "{{demo.domain_name}}";
+default-lease-time {{demo.default_lease_time}};
+max-lease-time {{demo.max_lease}};
+ddns-update-style none;
+{%     if demo.authoritative is defined and demo.authoritative == true %}
+authoritative;
+{%     endif %}
+
+#--------------------------
+# Staticly assigned addresses
+#--------------------------
+{% for client in demo.clients %}
+host {{ client.name }} {
+    hardware ethernet {{ client.mac | string }};
+    fixed-address {{client.ip4}};
+{%     if client.gateway is defined %}
+    option routers {{ client.gateway }};
+{%     elif demo.gateway is defined %}
+    option routers {{ demo.gateway }};
+{%     endif %}
+}
+{% endfor %}
+
+{% for subnet in demo.subnets.control %}
+#-------------------------
+# {{subnet.description}}
+#-------------------------
+subnet {{ subnet.network }} netmask {{ subnet.netmask }} {
+{%     if subnet.gateway is defined %}
+    option routers {{ subnet.gateway }};
+{%     endif %}
+{%     if subnet.nameservers is defined and subnet.nameservers is iterable %}
+    option domain-name-servers {% for nameserver in subnet.nameservers %}{{ nameserver }}{% if not loop.last %}, {% endif %}{% endfor %};
+{%     endif %}
+{%     if subnet.lease_time is defined %}
+    max-lease-time {{ subnet.lease_time }};
+{%     endif %}
+    range {{ subnet.start }} {{ subnet.end }};
+}
+{% endfor %}

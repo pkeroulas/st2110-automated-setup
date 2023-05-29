@@ -1,0 +1,21 @@
+---
+- name: UPDATE DHCP CONFIG
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  var_files:
+    - inventories/services/dhcp.yml
+  vars:
+    - ansible_python_interpreter: "/usr/bin/env python"
+  tasks:
+    - name: 'Create DHCP Configs Directory'
+      file: path={{dhcp_conf_folder}}  state=directory
+      tags: generate
+
+    - name: 'Generate DHCPd configuration file locally'
+      template:
+        src: 'dhcpd.conf.j2'
+        dest: '{{dhcp_conf_folder}}/dhcpd.conf'
+        mode: '0644'
+      delegate_to: localhost
+      tags: generate

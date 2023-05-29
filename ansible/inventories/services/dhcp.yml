@@ -1,0 +1,20 @@
+dhcp_conf_folder: './inventory/services/dhcpd.conf'
+dhcp_generated_cfg: '{{dhcp_conf_folder}}/dhcpd.conf'
+
+demo:
+  domain_name: prout
+  default_lease_time: 600
+  max_lease: 3600
+  authoritative: true
+
+  clients:
+      - {name: dev, mac: '00:00:00:00:00:00', ip4: 192.168.1.2}
+
+  subnets:
+    control:
+      - network: 192.168.1.0
+        description: 'CTRL SUBNET (VLAN 3)'
+        netmask: 255.255.255.0
+        gateway: 192.168.1.254
+        start: 192.168.1.10
+        end:   192.168.1.100
