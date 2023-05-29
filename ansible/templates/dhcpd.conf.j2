@@ -7,19 +7,20 @@ authoritative;
 {%     endif %}
 
 #--------------------------
-# Staticly assigned addresses
+# Statically assigned addresses
+# TODO: get them from inventories/gateways/
 #--------------------------
-{% for client in demo.clients %}
-host {{ client.name }} {
-    hardware ethernet {{ client.mac | string }};
-    fixed-address {{client.ip4}};
-{%     if client.gateway is defined %}
-    option routers {{ client.gateway }};
-{%     elif demo.gateway is defined %}
-    option routers {{ demo.gateway }};
-{%     endif %}
-}
-{% endfor %}
+#{% for client in demo.clients %}
+#host {{ client.name }} {
+#    hardware ethernet {{ client.mac | string }};
+#    fixed-address {{client.ip4}};
+#{%     if client.gateway is defined %}
+#    option routers {{ client.gateway }};
+#{%     elif demo.gateway is defined %}
+#    option routers {{ demo.gateway }};
+#{%     endif %}
+#}
+#{% endfor %}
 
 {% for subnet in demo.subnets.control %}
 #-------------------------

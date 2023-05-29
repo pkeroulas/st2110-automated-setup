@@ -1,4 +1,5 @@
-host_ip: 192.168.1.14
+host_ip: 192.168.1.3
+mac: 40:A3:6B:A0:29:DC
 hostname: MuonDecapGateway
 description: Monitoring
 role: ip-to-sdi-gateway

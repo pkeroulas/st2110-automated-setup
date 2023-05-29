@@ -17,6 +17,7 @@
     - name: 'Create DHCP Configs Directory'
       file: 'path={{ dhcp_conf_folder }}  state=directory'
       tags: generate
+    #TODO generate statically assigned IPs from ./inventories/gateway/intended/*.yml
     - name: 'Generate DHCPd configuration file locally'
       template:
         src: '../templates/dhcpd.conf.j2'
