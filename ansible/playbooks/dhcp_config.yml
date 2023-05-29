@@ -1,6 +1,8 @@
 ---
 - name: UPDATE DHCP CONFIG
-  hosts: localhost
+  hosts:
+    MuonDecapGateway
+    MuonEncapGateway
   connection: local
   gather_facts: false
   vars_files:
@@ -8,6 +10,10 @@
   vars:
     - ansible_python_interpreter: "/usr/bin/env python"
   tasks:
+    - name: Get Netbox Data
+      tags: [netbox]
+      import_role:
+        name: netbox
     - name: 'Create DHCP Configs Directory'
       file: 'path={{ dhcp_conf_folder }}  state=directory'
       tags: generate

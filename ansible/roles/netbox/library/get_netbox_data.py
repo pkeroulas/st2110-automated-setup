@@ -108,11 +108,19 @@ def process_switch(nb, struct_config, dev):
 
 GW_STRUCTURE_PORT_TEMPLATE = {
   "host_ip": "",
+  "mac": "",
   "hostname": "",
   "description": "",
   "role": "",
   "config_context": { }
 }
+
+def get_mac_address(nb, ip_id):
+  nb_ip = nb.ipam.ip_addresses.get(ip_id)
+  nb_iface = nb.dcim.interfaces.get(nb_ip.assigned_object_id)
+  if nb_iface == None:
+    MODULE_LOGGER.info(f"Error while retrieving iface from ip address { ip }: { nb_ips }")
+  return nb_iface.mac_address
 
 def process_gateway(nb, struct_config, dev):
   struct_config = GW_STRUCTURE_PORT_TEMPLATE
@@ -123,6 +131,7 @@ def process_gateway(nb, struct_config, dev):
     struct_config['description'] = dev.description
   if dev.primary_ip != None:
     struct_config['host_ip'] = str(IPNetwork(dev.primary_ip.address).ip)
+    struct_config['mac'] = get_mac_address(nb, dev.primary_ip.id)
   struct_config['config_context'] =  dev.config_context
   return struct_config
 
