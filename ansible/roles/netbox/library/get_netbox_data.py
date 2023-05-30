@@ -141,51 +141,53 @@ def main():
       nb_host=dict(type='str', required=True),
       token=dict(type='str', required=True),
       config_dir=dict(type='str', required=True),
-      device_role=dict(type='str', required=False),
       target_type=dict(type='str', required=True),
-      inventory_hostname=dict(type='str', required=True),
+      inventory_hostname=dict(type='str', required=False),
     ),
     supports_check_mode=True,
   )
   nb_host = module.params['nb_host']
   token = module.params['token']
   config_dir  = module.params['config_dir']
-  device_role  = module.params['device_role']
   target_type  = module.params['target_type']
-  inventory_hostname  = module.params['inventory_hostname']
   nb = pynetbox.api(nb_host,token)
   nb.http_session.verify = False
 
+  hash_init = hash_end = has_changed = False
+
   if target_type == 'endpoints':
     config_file = f"{ config_dir }/hosts.yml"
-  struct_config = open_yaml_file(config_file)
-  MODULE_LOGGER.info(f"IN {struct_config}")
-  hash_init = hash_end = has_changed = False
-  if struct_config == None:
-    module.exit_json(changed=has_changed, msg=f"EXIT 1")
-  hash_init = hash_yaml_file(config_file)
+    struct_config = open_yaml_file(config_file)
+    MODULE_LOGGER.info(f"GW IN {struct_config}")
+    if struct_config == None:
+      module.exit_json(changed=has_changed, msg=f"EXIT 1")
+    hash_init = hash_yaml_file(config_file)
 
-  #if device_role == 'standalone-media-switch':
-  #  config_file = f"{ config_dir }/{ inventory_hostname }.yml"
-  #elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':struct_config
-  if target_type == 'endpoints':
     hosts = struct_config['all']['children']['DC']['hosts']
 
-  for host in hosts.keys():
-    nb_devices = nb.dcim.devices.filter(name=host)
-    if len(nb_devices) == 0:
-      module.exit_json(changed=has_changed, msg=f"EXIT 0")
+    for host in hosts.keys():
+      nb_devices = nb.dcim.devices.filter(name=host)
+      if len(nb_devices) == 0:
+        module.exit_json(changed=has_changed, msg=f"EXIT 0")
 
-    nb_dev = nb_devices[0]
-    #if device_role == 'standalone-media-switch':
-    #  struct_config = process_switch(nb, struct_config, nb_dev)
-    #elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':
-    if target_type == 'endpoints':
+      nb_dev = nb_devices[0]
       struct_config_dev = hosts[host]
       hosts[host] = process_gateway(nb, struct_config_dev, nb_dev)
-      MODULE_LOGGER.info(f"OUT ================================= { host } { hosts }")
+      MODULE_LOGGER.info(f"GW { host } { hosts }")
 
-  struct_config['all']['children']['DC']['hosts'] = hosts
+    struct_config['all']['children']['DC']['hosts'] = hosts
+
+  elif target_type == 'switch':
+    inventory_hostname  = module.params['inventory_hostname']
+    config_file = f"{ config_dir }/{ inventory_hostname }.yml"
+    hash_init = hash_yaml_file(config_file)
+    nb_devices = nb.dcim.devices.filter(name=inventory_hostname)
+    if len(nb_devices) == 0:
+      module.exit_json(changed=has_changed, msg=f"EXIT 0")
+    nb_dev = nb_devices[0]
+    struct_config = open_yaml_file(config_file)
+    struct_config = process_switch(nb, struct_config, nb_dev)
+
   write_yaml_file(config_file, struct_config, False)
   hash_end = hash_yaml_file(config_file)
   MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")

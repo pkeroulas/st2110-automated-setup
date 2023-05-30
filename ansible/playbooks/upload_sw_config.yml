@@ -7,6 +7,8 @@
     - arista.avd
   vars:
     - ansible_python_interpreter: "/usr/bin/env python"
+  vars_files:
+    - ../inventories/switch/hosts.yml
   tasks:
     - name: Get Netbox Data
       tags: [netbox]
