@@ -103,28 +103,28 @@ def main():
   module = AnsibleModule(
     argument_spec=dict(
       config_dir=dict(type='str', required=True),
-      device_role=dict(type='str', required=True),
-      inventory_hostname=dict(type='str', required=True),
     ),
     supports_check_mode=True,
   )
   config_dir  = module.params['config_dir']
-  device_role  = module.params['device_role']
-  inventory_hostname  = module.params['inventory_hostname']
-  config_file = f"{ config_dir }/{ inventory_hostname }.yml"
+  config_file = f"{ config_dir }/hosts.yml"
   struct_config = open_yaml_file(config_file)
   MODULE_LOGGER.info(f" { config_file }: { struct_config }")
-  struct_audio_map = struct_config['config_context']['audio_map']
+  hosts = struct_config['all']['children']['DC']['hosts']
 
-  has_changed = False
-  if struct_config['status'] != 'active':
-      module.exit_json(changed=has_changed, msg=f"This device has been bean flgged offline in Netbox.")
+  for host in hosts.keys():
+    struct_config_dev = hosts[host]
+    struct_audio_map = struct_config_dev['config_context']['audio_map']
 
-  if device_role == 'ip-to-sdi-gateway':
-    url = f"http://{ struct_config['host_ip'] }/emsfp/node/v1/"
-    has_changed = process_audio_map(url, struct_audio_map)
+    has_changed = False
+    if struct_config_dev['status'] != 'active':
+        continue
 
-  module.exit_json(changed=has_changed, msg=f"Pushed config to url= {module.params['inventory_hostname']}")
+    if struct_config_dev['device_role'] == 'ip-to-sdi-gateway':
+      url = f"http://{ struct_config_dev['host_ip'] }/emsfp/node/v1/"
+      has_changed = process_audio_map(url, struct_audio_map)
+
+  module.exit_json(changed=has_changed, msg=f"Pushed config")
 
 if __name__ == "__main__":
   main()
