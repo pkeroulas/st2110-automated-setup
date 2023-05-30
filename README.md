@@ -2,10 +2,23 @@
 
 ## What is this repository for?
 
-* Demo @ SMPTE Bootcamp in MTL 2023
-* Config+scripts for automated for a simple ST2110 setup
+![smpte](https://www.smpte.org/hubfs/NBM/Images/logo_white.svg)
 
-## Server
+* [Demo @ SMPTE Bootcamp in MTL 2023](https://www.smpte.org/sections/montrealquebec-bootcamp-2020)
+* Config + scripts to deploy a simple ST2110 setup
+* Sponsored by:
+
+![logo](https://site-cbc.radio-canada.ca/site/annual-reports/2014-2015/_images/about/services/cbc-radio-canada.png)
+
+
+## Infra Network (static)
+
+* Switch: 192.168.0.0/24
+* Endpoints/devices/gateways: 192.168.1.0/24
+
+![network](./doc/network.png)
+
+## Services
 
 |*Service*|*HTTP port*|
 |---------|-----------|
@@ -19,18 +32,13 @@
 Test services:
 
 ```
-IP=10.164.50.135 # server IP for user access
+IP=192.168..X.X # server IP for user access
 firefox http://$IP:2000  http://$IP:3000/admin/#/ http://$IP:4000/ http:$IP:8000
 ```
-
-## Infra Network (static)
-
-* server/gateway: 192.168.0.254/24
-
-## Scripts (helpers)
-
-[Installation guide](./scripts/INSTALL.md).
 
 ## Ansible
 
 [User guide](./ansible/README.md).
+
+If you want to experiment with `pynetbox` without `ansible`, take a look
+at the [helper scripts](./scripts/INSTALL.md).
