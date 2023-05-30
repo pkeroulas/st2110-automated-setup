@@ -12,27 +12,37 @@ cmd_1="$ansible $inventory_sw $upload_sw"
 cmd_2="$ansible $inventory_gw $upload_gw"
 cmd_3="$ansible $inventory_gw $upload_dhcp"
 
-execute() {
-    echo "$@"
-    echo "[ENTER]"
-    $@
-    echo "[ENTER]"
-    read r
+RED='\033[0;31m'
+BROWN='\033[0;33m'
+NC='\033[0m'
+
+echo_instruction(){
+    printf "${BROWN}%s${NC}\n" "$@"
 }
 
-# TODO add colors
+echo_cmd(){
+    printf "   ${BROWN}%s${NC} - %-15.15s : %s\n" "$1" "$2" "$3"
+}
+
+execute() {
+    echo "$@"
+    echo_instruction "[ENTER]"
+    read r
+    $@
+    echo_instruction "[ENTER]"
+    read r
+}
 
 while true
 do
     clear
     echo "========================================
-Ansible cmd examples:
-    1 Switch:    $cmd_1
-    2 Gateways:  $cmd_2
-    3 DHCP conf: $cmd_3
-    q Quit
-    "
-
+Ansible cmd examples:"
+    echo_cmd 1 "Switch"    "$cmd_1"
+    echo_cmd 2 "Gateways"  "$cmd_2"
+    echo_cmd 3 "DHCP conf" "$cmd_3"
+    echo_cmd q "Quit"
+    echo_instruction "[Select the cmd + ENTER]"
     read i
 
     case $i in
