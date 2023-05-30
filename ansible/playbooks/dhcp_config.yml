@@ -1,12 +1,11 @@
 ---
 - name: UPDATE DHCP CONFIG
-  hosts:
-    MuonDecapGateway
-    MuonEncapGateway
+  hosts: localhost
   connection: local
   gather_facts: false
   vars_files:
     - ../inventories/services/dhcp.yml
+    - ../inventories/gateways/hosts.yml
   vars:
     - ansible_python_interpreter: "/usr/bin/env python"
   tasks:
@@ -17,7 +16,6 @@
     - name: 'Create DHCP Configs Directory'
       file: 'path={{ dhcp_conf_folder }}  state=directory'
       tags: generate
-    #TODO generate statically assigned IPs from ./inventories/gateway/intended/*.yml
     - name: 'Generate DHCPd configuration file locally'
       template:
         src: '../templates/dhcpd.conf.j2'
