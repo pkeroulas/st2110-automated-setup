@@ -1,12 +1,12 @@
 ---
 - name: UPLOAD GATEWAYS CONFIG
-  hosts:
-    MuonDecapGateway
-    MuonEncapGateway
+  hosts: localhost
   connection: local
   gather_facts: false
   collections:
     - arista.avd
+  vars_files:
+    - ../inventories/gateways/hosts.yml
   vars:
     - ansible_python_interpreter: "/usr/bin/env python"
   tasks:

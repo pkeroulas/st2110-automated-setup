@@ -74,8 +74,8 @@ SW_STRUCTURE_PORT_TEMPLATE = {
   }
 }
 
-def process_switch(nb, struct_config, dev):
-  nb_ifaces = list(nb.dcim.interfaces.filter(device=dev.name))
+def process_switch(nb, struct_config, nb_dev):
+  nb_ifaces = list(nb.dcim.interfaces.filter(device=nb_dev.name))
   for nb_iface in nb_ifaces:
     if nb_iface.name == 'Ethernet48' or nb_iface.name == 'Management1': # Never touch the management link,
       continue
@@ -106,7 +106,7 @@ def process_switch(nb, struct_config, dev):
 
   return struct_config
 
-GW_STRUCTURE_PORT_TEMPLATE = {
+GW_STRUCTURE_TEMPLATE = {
   "host_ip": "",
   "mac": "",
   "hostname": "",
@@ -122,17 +122,17 @@ def get_mac_address(nb, ip_id):
     MODULE_LOGGER.info(f"Error while retrieving iface from ip address { ip }: { nb_ips }")
   return nb_iface.mac_address
 
-def process_gateway(nb, struct_config, dev):
-  struct_config = GW_STRUCTURE_PORT_TEMPLATE
-  struct_config['hostname'] = dev.name
-  struct_config['role'] = dev.device_role.slug
-  struct_config['status'] = dev.status.value
-  if dev.description != "":
-    struct_config['description'] = dev.description
-  if dev.primary_ip != None:
-    struct_config['host_ip'] = str(IPNetwork(dev.primary_ip.address).ip)
-    struct_config['mac'] = get_mac_address(nb, dev.primary_ip.id)
-  struct_config['config_context'] =  dev.config_context
+def process_gateway(nb, struct_config, nb_dev):
+  struct_config = copy.deepcopy(GW_STRUCTURE_TEMPLATE)
+  struct_config['hostname'] = nb_dev.name
+  struct_config['device_role'] = nb_dev.device_role.slug
+  struct_config['status'] = nb_dev.status.value
+  if nb_dev.description != "":
+    struct_config['description'] = nb_dev.description
+  if nb_dev.primary_ip != None:
+    struct_config['host_ip'] = str(IPNetwork(nb_dev.primary_ip.address).ip)
+    struct_config['mac'] = get_mac_address(nb, nb_dev.primary_ip.id)
+  struct_config['config_context'] =  nb_dev.config_context
   return struct_config
 
 def main():
@@ -141,7 +141,8 @@ def main():
       nb_host=dict(type='str', required=True),
       token=dict(type='str', required=True),
       config_dir=dict(type='str', required=True),
-      device_role=dict(type='str', required=True),
+      device_role=dict(type='str', required=False),
+      target_type=dict(type='str', required=True),
       inventory_hostname=dict(type='str', required=True),
     ),
     supports_check_mode=True,
@@ -150,30 +151,41 @@ def main():
   token = module.params['token']
   config_dir  = module.params['config_dir']
   device_role  = module.params['device_role']
+  target_type  = module.params['target_type']
   inventory_hostname  = module.params['inventory_hostname']
   nb = pynetbox.api(nb_host,token)
   nb.http_session.verify = False
 
-  hash_init = hash_end = has_changed = False
-  devices = nb.dcim.devices.filter(role=device_role, name=inventory_hostname)
-  if len(devices) == 0:
-    module.exit_json(changed=has_changed, msg=f"EXIT 0")
-
-  config_file = f"{ config_dir }/{ inventory_hostname }.yml"
+  if target_type == 'endpoints':
+    config_file = f"{ config_dir }/hosts.yml"
   struct_config = open_yaml_file(config_file)
+  MODULE_LOGGER.info(f"IN {struct_config}")
+  hash_init = hash_end = has_changed = False
   if struct_config == None:
     module.exit_json(changed=has_changed, msg=f"EXIT 1")
   hash_init = hash_yaml_file(config_file)
 
-  dev = devices[0]
-  if device_role == 'standalone-media-switch':
-    struct_config = process_switch(nb, struct_config, dev)
-  elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':
-    struct_config = process_gateway(nb, struct_config, dev)
-    MODULE_LOGGER.info(f"{struct_config}")
-  else:
-    module.exit_json(changed=has_changed, msg=f"EXIT 2")
+  #if device_role == 'standalone-media-switch':
+  #  config_file = f"{ config_dir }/{ inventory_hostname }.yml"
+  #elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':struct_config
+  if target_type == 'endpoints':
+    hosts = struct_config['all']['children']['DC']['hosts']
 
+  for host in hosts.keys():
+    nb_devices = nb.dcim.devices.filter(name=host)
+    if len(nb_devices) == 0:
+      module.exit_json(changed=has_changed, msg=f"EXIT 0")
+
+    nb_dev = nb_devices[0]
+    #if device_role == 'standalone-media-switch':
+    #  struct_config = process_switch(nb, struct_config, nb_dev)
+    #elif device_role == 'ip-to-sdi-gateway' or device_role == 'sdi-to-ip-gateway':
+    if target_type == 'endpoints':
+      struct_config_dev = hosts[host]
+      hosts[host] = process_gateway(nb, struct_config_dev, nb_dev)
+      MODULE_LOGGER.info(f"OUT ================================= { host } { hosts }")
+
+  struct_config['all']['children']['DC']['hosts'] = hosts
   write_yaml_file(config_file, struct_config, False)
   hash_end = hash_yaml_file(config_file)
   MODULE_LOGGER.info(f"{config_file}: HASH { hash_init } -> { hash_end }")

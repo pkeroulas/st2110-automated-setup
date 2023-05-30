@@ -5,6 +5,6 @@
     nb_host: '{{ netbox_url }}'
     token: '{{ netbox_token }}'
     config_dir: '{{ config_dir }}'
-    device_role: '{{ device_role }}'
+    target_type: '{{ target_type }}'
     inventory_hostname: '{{ inventory_hostname }}'
   delegate_to: localhost
