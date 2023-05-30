@@ -84,23 +84,23 @@ def process_switch(nb, struct_config, dev):
     if not nb_iface.name in struct_config['ethernet_interfaces']:
       struct_config['ethernet_interfaces'][nb_iface.name] = copy.deepcopy(SW_STRUCTURE_PORT_TEMPLATE)
 
-    structured_iface = struct_config['ethernet_interfaces'][nb_iface.name]
-    structured_iface['description'] = nb_iface.description if nb_iface.description != '' else '_'
-    MODULE_LOGGER.info(f"{ nb_iface.name } ({ nb_iface.description })")
+    struct_iface = struct_config['ethernet_interfaces'][nb_iface.name]
+    struct_iface['description'] = nb_iface.description if nb_iface.description != '' else '_'
+    MODULE_LOGGER.info(f"{ nb_iface.name } IN ({ nb_iface.mode })")
 
     #VLANS
     if nb_iface.mode == None: # delete iface
-        if hasattr(structured_iface, "mode"): del structured_iface['mode']
-        if hasattr(structured_iface, "vlans"): del structured_iface['vlans']
+      if "mode" in struct_iface.keys(): del struct_iface['mode']
+      if "vlans" in struct_iface.keys(): del struct_iface['vlans']
     elif nb_iface.mode.value == 'access': # add access
-      structured_iface['mode'] = nb_iface.mode.value
-      structured_iface['vlans'] = nb_iface.untagged_vlan.vid
+      struct_iface['mode'] = nb_iface.mode.value
+      struct_iface['vlans'] = nb_iface.untagged_vlan.vid
     elif nb_iface.mode.value == 'tagged': # add trunk
-      structured_iface['mode'] = 'trunk'
+      struct_iface['mode'] = 'trunk'
       structured_vids = ''
       for vlan in nb_iface.tagged_vlans:
         structured_vids += f"{ vlan.vid },"
-      structured_iface['vlans'] = structured_vids[:-1] #remove last ','
+      struct_iface['vlans'] = structured_vids[:-1] #remove last ','
       if nb_iface.untagged_vlan != None:
         MODULE_LOGGER.info(f"What TODO with { nb_iface.untagged_vlan }")
 
