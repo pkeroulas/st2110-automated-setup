@@ -10,15 +10,21 @@ authoritative;
 # Statically assigned addresses
 #--------------------------
 {% for client in all.children.DC.hosts.values() %}
+{% if client.status == 'active' %}
 host {{ client.hostname }} {
+{%     if client.mac != '' %}
     hardware ethernet {{ client.mac | string }};
-    fixed-address {{client.host_ip}};
+{%     endif %}
+{%     if client.host_ip != '' %}
+    fixed-address {{ client.host_ip }};
+{%     endif %}
 {%     if client.gateway is defined %}
     option routers {{ client.gateway }};
 {%     elif demo.gateway is defined %}
     option routers {{ demo.gateway }};
 {%     endif %}
 }
+{% endif %}
 {% endfor %}
 
 {% for subnet in demo.subnets.control %}

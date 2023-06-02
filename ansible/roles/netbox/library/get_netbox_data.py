@@ -107,6 +107,7 @@ def process_switch(nb, struct_config, nb_dev):
   return struct_config
 
 GW_STRUCTURE_TEMPLATE = {
+  "status": "inventory",
   "host_ip": "",
   "mac": "",
   "hostname": "",

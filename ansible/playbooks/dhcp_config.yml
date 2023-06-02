@@ -23,3 +23,10 @@
         mode: '0644'
       delegate_to: localhost
       tags: generate
+    - name: "Read dhcpd.conf file"
+      shell: |
+        cat ../inventories/services/dhcpd.conf
+      register: file_content
+    - name: "Print "
+      debug:
+        msg: "{{ file_content.stdout.split('\n') }}"
