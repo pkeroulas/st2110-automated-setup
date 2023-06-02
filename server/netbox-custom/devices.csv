@@ -1,4 +1,5 @@
-Name,Status,Tenant,Site,Location,Rack,Role,Manufacturer,Type,IP Address,ID,Tenant Group,Platform,Serial number,Asset tag,Region,Site Group,Position (U),Rack face,Airflow,IPv4 Address,IPv6 Address,Cluster,Virtual chassis,VC Position,VC Priority,Description,Comments,Contacts,Tags,Created,Last updated
-Camera Gateway,Active,,Mobile Studio,,,SDI-to-IP gateway,Riedel,EMBOX-3-U,,2,,,,,,,,,,,,,,,,,,,,2023-05-11 01:48,2023-05-11 01:48
-MTL-LAB1S3-MPX-XLF229,Active,,Mobile Studio,,,Standalone Media Switch,Arista,DCS-7280SR2-48YC6,,1,,,,,,,,,,,,,,,,,,,,2023-05-08 18:19,2023-05-08 20:00
-Monitor Gateway,Active,,Mobile Studio,,,IP-to-SDI gateway,Riedel,EMBOX-6-U,,3,,,,,,,,,,,,,,,,HDMI,,,,2023-05-11 01:49,2023-05-11 01:49
+Name,Status,Tenant,Site,Location,Rack,Role,Manufacturer,Type,IP Address,Description,ID,Tenant Group,Platform,Serial number,Asset tag,Region,Site Group,Position (U),Rack face,Airflow,IPv4 Address,IPv6 Address,Cluster,Virtual chassis,VC Position,VC Priority,Comments,Contacts,Tags,Created,Last updated
+BackupGateway,Inventory,,Mobile Studio,,,IP-to-SDI gateway,Riedel,MuoN SFP,192.168.1.4/24,,7,,,,,,,,,,192.168.1.4/24,,,,,,,,,2023-06-02 13:35,2023-06-02 14:26
+MuonDecapGateway,Active,,Mobile Studio,,,IP-to-SDI gateway,Riedel,MuoN SFP,192.168.1.3/24,Monitoring,6,,,,,,,,,,192.168.1.3/24,,,,,,,,,2023-05-23 21:05,2023-06-02 15:43
+MuonEncapGateway,Active,,Mobile Studio,,,SDI-to-IP gateway,Riedel,MuoN SFP,192.168.1.2/24,Camera+Mic,5,,,,,,,,,,192.168.1.2/24,,,,,,,,,2023-05-23 21:04,2023-05-29 15:44
+Switch1,Active,,Mobile Studio,,,Standalone Media Switch,Arista,DCS-7280SR2-48YC6,192.168.0.1/24,,1,,,,,,,,,,192.168.0.1/24,,,,,,,,,2023-05-08 18:19,2023-05-26 15:57
