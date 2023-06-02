@@ -168,7 +168,7 @@ def main():
     for host in hosts.keys():
       nb_devices = nb.dcim.devices.filter(name=host)
       if len(nb_devices) == 0:
-        module.exit_json(changed=has_changed, msg=f"EXIT 0")
+        continue
 
       nb_dev = nb_devices[0]
       struct_config_dev = hosts[host]
