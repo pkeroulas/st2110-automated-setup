@@ -11,6 +11,8 @@ PORT_MNSET=4000
 PORT_GLASS=3000
 PORT_NMOS=8000
 IP_MGT=$(ip addr show $IFACE_MGT | tr -s ' ' | sed -n 's/ inet \(.*\)\/.*/\1/p' | head -n1)
+THIS_DIR=$(dirname $(readlink -f $0))
+ENDPOINTS=$(cat $THIS_DIR/dhcp/dhcpd.conf | sed -n 's/    fixed-address \(.*\);/\1/p')
 
 if [ "$1" = '-v' ]; then
     set -x
@@ -104,6 +106,11 @@ get_all_status()
     get_status "MNSET java" "ps aux" "[j]ava"
     get_status "MNSET mongo" "ps aux" "[m]ongod"
     get_status "MNSET $IP_MGT:$PORT_MNSET" "curl http://$IP_MGT:$PORT_MNSET 2>/dev/null" "MN SET"
+
+    show_header "Endpoints"
+    for ip in $ENDPOINTS; do
+        get_status "ping $ip" "ping -c 1 -W 1 $ip" "1 received"
+    done
 }
 
 get_all_status
